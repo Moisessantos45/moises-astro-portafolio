@@ -2,31 +2,31 @@
   "skills": [
     {
       "skill": "HTML5",
-      "icon": "./public/html.svg"
+      "icon": "/html.svg"
     },
     {
       "skill": "CSS3",
-      "icon": "./public/css.svg"
+      "icon": "/css.svg"
     },
     {
       "skill": "JavaScript",
-      "icon": "./public/javascript.svg"
+      "icon": "/javascript.svg"
     },
     {
       "skill": "React",
-      "icon": "./public/react.svg"
+      "icon": "/react.svg"
     },
     {
       "skill": "Node.js",
-      "icon": "./public/node.svg"
+      "icon": "/node.svg"
     },
     {
       "skill": "Astro",
-      "icon": "./public/astro.svg"
+      "icon": "/astro.svg"
     },
     {
       "skill": "Tailwind CSS",
-      "icon": "./public/tailwind.svg"
+      "icon": "/tailwind.svg"
     },
     {
       "skill": "Express",
@@ -34,11 +34,11 @@
     },
     {
       "skill": "MongoDB",
-      "icon": "./public/mongodb.svg"
+      "icon": "/mongodb.svg"
     },
     {
       "skill": "MySQL",
-      "icon": "./public/mysql.svg"
+      "icon": "/mysql.svg"
     },
     {
       "skill": "TypeScript",
@@ -46,47 +46,47 @@
     },
     {
       "skill": "Sokect IO",
-      "icon": "./public/socket.svg"
+      "icon": "/socket.svg"
     },
     {
       "skill": "Zustand",
-      "icon": "./public/zustand.svg"
+      "icon": "/zustand.svg"
     },
     {
       "skill": "API Management and Creation",
-      "icon": "./public/api.svg"
+      "icon": "/api.svg"
     },
     {
       "skill": "ORM Handling",
-      "icon": "./public/orm.svg"
+      "icon": "/orm.svg"
     },
     {
       "skill": "GitHub",
-      "icon": "./public/github.svg"
+      "icon": "/github.svg"
     },
     {
       "skill": "Npm (Node Package Manager)",
-      "icon": "./public/npm.svg"
+      "icon": "/npm.svg"
     },
     {
       "skill": "Adobe Photoshop",
-      "icon": "./public/Photoshop.svg"
+      "icon": "/Photoshop.svg"
     },
     {
       "skill": "Adobe Premiere Pro",
-      "icon": "./public/Premiere.svg"
+      "icon": "/Premiere.svg"
     },
     {
       "skill": "Adobe After Effects",
-      "icon": "./public/AfterEffects.svg"
+      "icon": "/AfterEffects.svg"
     },
     {
       "skill": "Video and Image Editing",
-      "icon": "./public/videoedit.svg"
+      "icon": "/videoedit.svg"
     },
     {
       "skill": "Microsoft Office Suite",
-      "icon": "./public/office.svg"
+      "icon": "/office.svg"
     }
   ]
 }
