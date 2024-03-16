@@ -1,0 +1,92 @@
+{
+  "skills": [
+    {
+      "skill": "HTML5",
+      "icon": "./public/html.svg"
+    },
+    {
+      "skill": "CSS3",
+      "icon": "./public/css.svg"
+    },
+    {
+      "skill": "JavaScript",
+      "icon": "./public/javascript.svg"
+    },
+    {
+      "skill": "React",
+      "icon": "./public/react.svg"
+    },
+    {
+      "skill": "Node.js",
+      "icon": "./public/node.svg"
+    },
+    {
+      "skill": "Astro",
+      "icon": "./public/astro.svg"
+    },
+    {
+      "skill": "Tailwind CSS",
+      "icon": "./public/tailwind.svg"
+    },
+    {
+      "skill": "Express",
+      "icon": "./public/express.svg"
+    },
+    {
+      "skill": "MongoDB",
+      "icon": "./public/mongodb.svg"
+    },
+    {
+      "skill": "MySQL",
+      "icon": "./public/mysql.svg"
+    },
+    {
+      "skill": "TypeScript",
+      "icon": "./public/typescript.svg"
+    },
+    {
+      "skill": "Sokect IO",
+      "icon": "./public/socket.svg"
+    },
+    {
+      "skill": "Zustand",
+      "icon": "./public/zustand.svg"
+    },
+    {
+      "skill": "API Management and Creation",
+      "icon": "./public/api.svg"
+    },
+    {
+      "skill": "ORM Handling",
+      "icon": "./public/orm.svg"
+    },
+    {
+      "skill": "GitHub",
+      "icon": "./public/github.svg"
+    },
+    {
+      "skill": "Npm (Node Package Manager)",
+      "icon": "./public/npm.svg"
+    },
+    {
+      "skill": "Adobe Photoshop",
+      "icon": "./public/Photoshop.svg"
+    },
+    {
+      "skill": "Adobe Premiere Pro",
+      "icon": "./public/Premiere.svg"
+    },
+    {
+      "skill": "Adobe After Effects",
+      "icon": "./public/AfterEffects.svg"
+    },
+    {
+      "skill": "Video and Image Editing",
+      "icon": "./public/videoedit.svg"
+    },
+    {
+      "skill": "Microsoft Office Suite",
+      "icon": "./public/office.svg"
+    }
+  ]
+}

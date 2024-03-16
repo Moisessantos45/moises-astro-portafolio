@@ -1,0 +1,98 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Footer from "../../components/Footer.astro";
+import { obtenerDatos, obtenerProyectos } from "../../types/data";
+import type { TypeProyects } from "../../types/data";
+
+const { id } = Astro.params;
+console.log(id);
+let data: TypeProyects[] = [];
+try {
+  data = await obtenerDatos(id);
+} catch (error) {
+  data = [];
+}
+
+export async function getStaticPaths() {
+  const pagesProyects: TypeProyects[] = await obtenerProyectos();
+  return pagesProyects.map((item) => ({
+    params: { id: item.id },
+  }));
+}
+---
+
+<Layout title="Proyects Moy">
+  <section class="mx-auto max-w-screen-lg px-3 py-6">
+    <p class="text-center text-3xl font-bold">{data[0].title}</p>
+    <article class="mx-auto mt-5 sm:max-w-prose w-11/12">
+      <div class="aspect-w-3 aspect-h-2 gap-2 flex flex-col">
+        {
+          data[0].imagenesProyect.map((item) => (
+            <img
+              src={`${item}`}
+              alt=""
+              class="h-full w-full border border-slate-400 rounded-lg object-cover object-center"
+            />
+          ))
+        }
+      </div>
+      <div
+        class="prose prose-invert mt-8 prose-img:rounded-lg flex text-center m-2 text-base fontTextDescription text-slate-300"
+      >
+        <p>{data[0].description}</p>
+      </div>
+      <article class="flex mt-8 flex-col">
+        <h1 class="text-3xl font-bold fontTextTitle">Characteristics</h1>
+        <ul
+          class="flex w-full justify-evenly mt-5 flex-wrap gap-3 flex-col pl-8 list-disc"
+        >
+          {
+            data[0].caracteristicas.map((item) => (
+              <li class=" text-slate-300 fontTextDescription"> {item} </li>
+            ))
+          }
+        </ul>
+      </article>
+      <article class="flex flex-col gap-3 mt-8">
+        <h1 class="text-3xl font-bold fontTextTitle">Technologies</h1>
+        <ul class="flex w-full justify-evenly mt-5 flex-wrap gap-3">
+          {
+            data[0].tecnologies.map((item) => (
+              <li class="outline-2 outline-slate-400 p-1 outline flex justify-center items-center h-10 min-w-32 rounded-md efectHover">
+                {item}
+              </li>
+            ))
+          }
+        </ul>
+      </article>
+    </article>
+  </section>
+  <Footer />
+</Layout>
+
+<style>
+  @font-face {
+    font-family: "verdana";
+    src: url(../../Fonts/verdana.ttf);
+  }
+
+  @font-face {
+    font-family: "verdana_bold";
+    src: url(../../Fonts/verdana-bold.ttf);
+  }
+
+  .fontTextDescription {
+    font-family: "verdana";
+  }
+
+  .fontTextTitle {
+    font-family: "verdana_bold";
+  }
+
+  .efectHover:hover {
+    transition: all 0.3s;
+    box-shadow: 1px 1px 15px 2px #ccd3dc;
+    color: #1ac0ec;
+    font-weight: bold;
+  }
+</style>

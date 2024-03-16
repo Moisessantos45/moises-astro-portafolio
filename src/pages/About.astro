@@ -1,0 +1,72 @@
+---
+import Footer from "@/components/Footer.astro";
+import Layout from "../layouts/Layout.astro";
+import Svg from "../components/Svg.astro";
+import { skills } from "@skills";
+
+interface Skill {
+  skill: string;
+  icon: string;
+}
+
+const currentSkills: Skill[] = skills;
+---
+
+<Layout title="About Me">
+  <section class="mx-auto max-w-screen-lg px-3 py-6">
+    <div>
+      <h1 class="from-sky-500 text-3xl font-bold to-cyan-400 bg-clip-text">
+        About Me
+      </h1>
+    </div>
+    <article class="w-full p-2 mt-3 flex flex-col text-justify">
+      <pre
+        class="w-full sm:text-base text-sm">
+        Hello! I am Moises, a passionate student of Intelligent Systems engineering at UASLP, currently in the fourth semester and 22 years old.
+        My technical skills include mastery of HTML, CSS, and JavaScript, as well as experience in developing web applications using technologies like React, Astro, and Tailwind CSS.
+ 
+        In addition, I have experience in backend development with Node.js and Express, as well as MongoDB and MySQL database management. My knowledge extends to TypeScript, API management and creation, and the use of ORMs to facilitate interaction with databases.
+
+        Throughout my career, I have been responsible and dedicated in my work, with a constant focus on learning and continuous improvement. I have had the opportunity to develop websites for diverse audiences, from Facebook pages to individual clients and student projects.
+ 
+        I'm a young man with big ambitions and I'm excited to keep learning and growing in the field of intelligent systems engineering - I'm ready to face new challenges and contribute to the world of technology with my passion and skills.
+        </pre>
+    </article>
+  </section>
+  <div
+    class="sm:container mx-auto py-8 w-11/12 flex sm:grid sm:grid-cols-3 grid-cols-2 gap-3 sm:grid-rows-2 flex-wrap"
+  >
+    <h1 class="col-span-3 text-3xl w-full">Skills</h1>
+    {
+      currentSkills.map((item) => (
+        <article class="group flex items-center justify-evenly px-2 py-3 bg-neutral-2 hover:bg-neutral-3 gap-1 outline-none border border-neutral-4 hover:border-neutral-6 rounded-xl h-14 sm:w-auto min-w-32">
+          <Svg icon={item.icon} />
+          <span class="textWidthFitContent flex text-base hover:text-cyan-500">
+            {item.skill}
+          </span>
+        </article>
+      ))
+    }
+  </div>
+  <Footer />
+</Layout>
+
+<style>
+  @font-face {
+    font-family: "Helvetica";
+    src: url(../Fonts/Helvetica.ttf);
+  }
+  @font-face {
+    font-family: "lato_regular";
+    src: url(../Fonts/Lato-Regular.ttf);
+  }
+  pre {
+    line-height: 1.8;
+    white-space: pre-line;
+    font-family: "lato_regular";
+  }
+
+  .textWidthFitContent {
+    width: fit-content;
+  }
+</style>

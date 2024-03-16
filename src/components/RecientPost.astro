@@ -1,0 +1,67 @@
+---
+import type { TypeProyects } from "../types/data";
+
+const url = import.meta.env.URL_BACKEND_HOST_API;
+const res = await fetch(`${url}/Api/1.0/Proyects`);
+const data = await res.json();
+const proyectsData: TypeProyects[] = data !== null ? data.slice(0, 3) : [];
+---
+
+<section class="mx-auto max-w-screen-lg px-3 py-6">
+  <div class="flex items-baseline justify-between p-2">
+    <span
+      class="bg-gradient-to-br from-sky-500 text-xl font-bold to-cyan-400 bg-clip-text text-transparent"
+      >Recient Post
+    </span>
+    <a href="/ProyectsAll" class="text-lg text-white hover:text-cyan-500 hover:font-bold">View all</a>
+  </div>
+  <article class="grid grid-cols-1 gap-6 md:grid-cols-3">
+    {
+      proyectsData.length > 1 &&
+        proyectsData.map((proyect) => (
+          <figure class="overflow-hidden rounded-md bg-slate-800">
+            <img src={proyect.image} alt="Hero" class="aspect-w-3 aspect-h-2" />
+            <div class="px-3 pt-4 pb-3 text-center">
+              <h1 class="text-xl font-semibold hover:text-cyan-400">
+                {proyect.title}
+              </h1>
+              <p class="mt-2 text-sm">
+                {proyect.description.substring(0, 130)}....
+              </p>
+              <div class="p-4 rounded-lg w-full flex justify-evenly">
+                <a
+                  href={`/Post/${proyect.id}`}
+                  rel="noopener noreferrer"
+                  class="relative px-4 py-2 overflow-hidden font-medium text-gray-600 bg-gray-100 border border-gray-100 flex h-10 rounded-lg shadow-inner group"
+                >
+                  <span class="absolute top-0 left-0 w-0 h-0 transition-all duration-200 border-t-2 border-cyan-600 group-hover:w-full ease" />
+                  <span class="absolute bottom-0 right-0 w-0 h-0 transition-all duration-200 border-b-2 border-cyan-600 group-hover:w-full ease" />
+                  <span class="absolute top-0 left-0 w-full h-0 transition-all duration-300 delay-200 bg-blue-600 group-hover:h-full ease" />
+                  <span class="absolute bottom-0 left-0 w-full h-0 transition-all duration-300 delay-200 bg-blue-600 group-hover:h-full ease" />
+                  <span class="absolute inset-0 w-full h-full duration-500 delay-300 bg-blue-600 opacity-0 group-hover:opacity-100" />
+                  <span class="relative transition-colors duration-75 delay-200 group-hover:text-white ease">
+                    View details
+                  </span>
+                </a>
+                <a
+                  href={proyect.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="relative px-4 py-2 overflow-hidden font-medium text-gray-600 bg-gray-100 border border-gray-100 flex h-10 rounded-lg shadow-inner group"
+                >
+                  <span class="absolute top-0 left-0 w-0 h-0 transition-all duration-200 border-t-2 border-cyan-600 group-hover:w-full ease" />
+                  <span class="absolute bottom-0 right-0 w-0 h-0 transition-all duration-200 border-b-2 border-cyan-600 group-hover:w-full ease" />
+                  <span class="absolute top-0 left-0 w-full h-0 transition-all duration-300 delay-200 bg-blue-600 group-hover:h-full ease" />
+                  <span class="absolute bottom-0 left-0 w-full h-0 transition-all duration-300 delay-200 bg-blue-600 group-hover:h-full ease" />
+                  <span class="absolute inset-0 w-full h-full duration-500 delay-300 bg-blue-600 opacity-0 group-hover:opacity-100" />
+                  <span class="relative transition-colors duration-75 delay-200 group-hover:text-white ease">
+                    Visit website
+                  </span>
+                </a>
+              </div>
+            </div>
+          </figure>
+        ))
+    }
+  </article>
+</section>
