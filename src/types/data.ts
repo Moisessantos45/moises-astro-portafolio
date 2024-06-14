@@ -1,4 +1,3 @@
-
 const technologiesColors = {
   React: "bg-blue-500 text-blue-900",
   "Next js": "bg-black text-white",
@@ -6,6 +5,7 @@ const technologiesColors = {
   "Node js": "bg-green-500 text-green-900",
   Express: "bg-gray-500 text-gray-900",
   zustand: "bg-blue-500 text-blue-900",
+  "React Query": "bg-blue-500 text-blue-900",
   "Socket IO": "bg-black text-white",
   MongoDB: "bg-green-500 text-green-900",
   Firebase: "bg-yellow-500 text-yellow-900",
@@ -39,6 +39,11 @@ interface Proyect {
   tecnologias: tecnology[];
 }
 
+interface TypeLinks {
+  frontend: string;
+  backend: string;
+}
+
 interface TypeProyects {
   id: string;
   title: string;
@@ -49,21 +54,8 @@ interface TypeProyects {
   imagenesProyect: string[];
   link: string;
   createdAt: string;
+  link_github: TypeLinks;
 }
 
-const obtenerDatos = async (id: string): Promise<TypeProyects[]> => {
-  const url = import.meta.env.URL_BACKEND_HOST_API;
-  const res = await fetch(`${url}/Api/1.0/Proyects/${id}`);
-  const data = await res.json();
-  return data;
-};
-
-const obtenerProyectos = async (): Promise<TypeProyects[]> => {
-  const url = import.meta.env.URL_BACKEND_HOST_API;
-  const res = await fetch(`${url}/Api/1.0/Proyects`);
-  const data = await res.json();
-  return data;
-};
-
-export { obtenerDatos, obtenerProyectos, technologiesColors };
+export { technologiesColors };
 export type { Proyect, tecnology, TypeProyects };

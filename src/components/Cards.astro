@@ -1,0 +1,39 @@
+---
+import type { TypeProyects } from "@/types/data";
+import Links from "./Links.astro";
+
+interface Props {
+  proyect: TypeProyects;
+}
+
+const { proyect } = Astro.props;
+---
+
+<figure
+  class="overflow-hidden rounded-lg bg-slate-800 transform transition-transform hover:scale-105"
+>
+  <img
+    src={proyect.image}
+    alt="Hero"
+    class="aspect-w-3 aspect-h-2 transition-transform transform hover:scale-110"
+    loading="lazy"
+  />
+  <div class="p-2 text-center">
+    <h1
+      class="text-xl font-bold mb-2 text-white hover:text-cyan-400 transition-colors"
+    >
+      {proyect.title}
+    </h1>
+    <div class="flex min-h-24">
+      <p class="mt-2 text-sm text-slate-200">
+        {proyect.description.substring(0, 130)}....
+      </p>
+    </div>
+    <div class="p-2 rounded-lg w-full flex justify-evenly flex-wrap gap-2">
+      <Links link={proyect.link_github?.frontend || ""} text="Code Front" />
+      <Links link={proyect.link_github?.backend || ""} text="Code Back" />
+      <Links link={`/Post/${proyect.id}`} text="View details" />
+      <Links link={proyect.link} text="Visit website" />
+    </div>
+  </div>
+</figure>

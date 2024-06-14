@@ -29,6 +29,14 @@
       "icon": "/tailwind.svg"
     },
     {
+      "skill": "React-Query",
+      "icon": "/react-query.png"
+    },
+    {
+      "skill": "Dart",
+      "icon": "/Dart.png"
+    },
+    {
       "skill": "Express",
       "icon": "./public/express.svg"
     },
