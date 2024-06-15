@@ -30,8 +30,8 @@ const { proyect } = Astro.props;
       </p>
     </div>
     <div class="p-2 rounded-lg w-full flex justify-evenly flex-wrap gap-2">
-      <Links link={proyect.link_github.frontend || "#"} text="Code Front" />
-      <Links link={proyect.link_github.backend || "#"} text="Code Back" />
+      <Links link={proyect.link_github?.frontend || "#"} text="Code Front" />
+      <Links link={proyect.link_github?.backend || "#"} text="Code Back" />
       <Links link={`/Post/${proyect.id}`} text="View details" />
       <Links link={proyect.link} text="Visit website" />
     </div>
