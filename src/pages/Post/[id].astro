@@ -29,7 +29,8 @@ export async function getStaticPaths() {
           data[0].imagenesProyect.map((item) => (
             <img
               src={`${item}`}
-              alt=""
+              alt="image proyect"
+              loading="lazy"
               class="h-full w-full border border-slate-400 rounded-lg object-cover object-center"
             />
           ))

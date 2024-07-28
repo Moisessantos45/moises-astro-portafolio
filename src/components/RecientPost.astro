@@ -1,5 +1,6 @@
 ---
 import axios from "axios";
+import Loading from "./Loading.astro";
 import Cards from "./Cards.astro";
 import type { TypeProyects } from "../types/data";
 import { fromToJsonMap } from "@/service/data.service";
@@ -25,8 +26,11 @@ const proyectsData: TypeProyects[] =
   </div>
   <article class="grid grid-cols-1 gap-6 md:grid-cols-3">
     {
-      proyectsData.length > 1 &&
+      proyectsData.length == 0 ? (
+        <Loading />
+      ) : (
         proyectsData.map((proyect) => <Cards proyect={proyect} />)
+      )
     }
   </article>
 </section>

@@ -1,6 +1,6 @@
 import type { TypeProyects } from "@/types/data";
 
-const fromToJsonMap = (data: any): TypeProyects => {
+const fromToJsonMap = (data: { [key: string]: any }): TypeProyects => {
   return {
     id: data["id"],
     title: data["title"],
