@@ -27,6 +27,12 @@ const technologiesColors = {
   InDesign: "bg-red-500 text-red-900",
   "After Effects": "bg-green-500 text-green-900",
   "Premiere Pro": "bg-pink-500 text-pink-900",
+  "MongoDb": "bg-green-500 text-green-900",
+  "JWT": "bg-black text-white",
+  "MUI/UI React": "bg-blue-500 text-blue-900",
+  "React-Query": "bg-blue-500 text-blue-900",
+  "Pug": "bg-green-500 text-green-900",
+  MySQL: "bg-blue-500 text-blue-900",
 };
 
 type tecnology = keyof typeof technologiesColors;
