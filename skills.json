@@ -13,6 +13,10 @@
       "icon": "/javascript.svg"
     },
     {
+      "skill": "TypeScript",
+      "icon": "./public/typescript.svg"
+    },
+    {
       "skill": "React",
       "icon": "/react.svg"
     },
@@ -23,6 +27,10 @@
     {
       "skill": "Astro",
       "icon": "/astro.svg"
+    },
+    {
+      "skill":"Flutter",
+      "icon": "/brand-flutter.svg"
     },
     {
       "skill": "Tailwind CSS",
@@ -37,8 +45,16 @@
       "icon": "/Dart.png"
     },
     {
+      "skill": "Python",
+      "icon": "/brand-python.svg"
+    },
+    {
       "skill": "Express",
       "icon": "./public/express.svg"
+    },
+    {
+      "skill": "FastAPI",
+      "icon": "./public/fastapi.png"
     },
     {
       "skill": "MongoDB",
@@ -47,10 +63,6 @@
     {
       "skill": "MySQL",
       "icon": "/mysql.svg"
-    },
-    {
-      "skill": "TypeScript",
-      "icon": "./public/typescript.svg"
     },
     {
       "skill": "Sokect IO",
