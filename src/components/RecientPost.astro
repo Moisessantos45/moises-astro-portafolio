@@ -6,11 +6,15 @@ import type { TypeProyects } from "../types/data";
 import { fromToJsonMap } from "@/service/data.service";
 
 const url = import.meta.env.URL_BACKEND_HOST_API;
-const res = await axios(`${url}/Api/1.0/Proyects`);
-const data = res.data ? res.data : [];
-const convertData: TypeProyects[] = data.map(fromToJsonMap);
-const proyectsData: TypeProyects[] =
-  convertData.length !== 0 ? data.slice(0, 3) : [];
+let proyectsData: TypeProyects[] = [];
+try {
+  const res = await axios.get<TypeProyects[]>(`${url}/Api/1.0/Proyects`);
+  const data = res.data ?? [];
+  const convertData = data.map(fromToJsonMap);
+  proyectsData = convertData.length ? convertData.slice(0, 3) : [];
+} catch (error) {
+  proyectsData = [];
+}
 ---
 
 <section class="mx-auto max-w-screen-lg px-3 py-6">

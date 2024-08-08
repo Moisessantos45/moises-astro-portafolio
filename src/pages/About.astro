@@ -13,57 +13,80 @@ const currentSkills: Skill[] = skills;
 ---
 
 <Layout title="About Me">
-  <section class="mx-auto max-w-screen-lg px-6 py-12">
-    <div class="text-center">
+  <main class="bg-[#0f172a] min-h-screen text-slate-300">
+    <section class="mx-auto max-w-4xl px-6 py-16">
       <h1
-        class="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-cyan-400"
+        class="text-5xl font-bold text-center mb-12 text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-300"
       >
         About Me
       </h1>
-    </div>
-    <article class="mt-6 p-6 rounded-lg shadow-lg content_about">
-      <p class="text-base sm:text-lg text-slate-300">
-        Hello! I am Moises, a passionate student of Intelligent Systems
-        engineering at UASLP, currently in the five semester and 22 years old.
-        My technical skills include mastery of HTML, CSS, and JavaScript, as
-        well as experience in developing web applications using technologies
-        like React, Astro, and Tailwind CSS.
-      </p>
-      <p class="mt-4 text-base sm:text-lg text-slate-300">
-        In addition, I have experience in backend development with Node.js and
-        Express, as well as MongoDB and MySQL database management. My knowledge
-        extends to TypeScript, API management and creation, and the use of ORMs
-        to facilitate interaction with databases.
-      </p>
-      <p class="mt-4 text-base sm:text-lg text-slate-300">
-        Throughout my career, I have been responsible and dedicated in my work,
-        with a constant focus on learning and continuous improvement. I have had
-        the opportunity to develop websites for diverse audiences, from Facebook
-        pages to individual clients and student projects.
-      </p>
-      <p class="mt-4 text-base sm:text-lg text-slate-300">
-        I'm a young man with big ambitions and I'm excited to keep learning and
-        growing in the field of intelligent systems engineering - I'm ready to
-        face new challenges and contribute to the world of technology with my
-        passion and skills.
-      </p>
-    </article>
-  </section>
-  <div class="max-w-screen-lg mx-auto py-10 w-11/12">
-    <h1 class="text-4xl font-bold text-cyan-400 mb-8 text-center">Skills</h1>
-    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-      {
-        currentSkills.map((item) => (
-          <article class="group flex flex-col items-center p-6 bg-slate-800 hover:bg-slate-700  rounded-xl shadow-lg transition-all duration-300">
-            <Svg icon={item.icon} />
-            <span class="text-lg font-semibold text-slate-300 group-hover:text-cyan-400">
-              {item.skill}
-            </span>
-          </article>
-        ))
-      }
-    </div>
-  </div>
+      <div class="space-y-8">
+        <div
+          class="bg-gradient-to-r from-slate-800 to-slate-700 rounded-lg p-6 shadow-xl"
+        >
+          <h3 class="text-xl font-semibold text-cyan-300 mb-4">Who I Am</h3>
+          <p class="text-lg leading-relaxed">
+            Hello! I'm Moises, a 22-year-old Intelligent Systems engineering
+            student at UASLP, currently in my fifth semester. My passion lies in
+            web development, where I've honed my skills in HTML, CSS, and
+            JavaScript, along with modern frameworks like React, Astro, and
+            Tailwind CSS.
+          </p>
+        </div>
+        <div
+          class="bg-gradient-to-r from-slate-800 to-slate-700 rounded-lg p-6 shadow-xl"
+        >
+          <h3 class="text-xl font-semibold text-cyan-300 mb-4">My Expertise</h3>
+          <p class="text-lg leading-relaxed">
+            My expertise extends to backend development with Node.js and
+            Express, as well as database management using MongoDB and MySQL. I'm
+            also proficient in TypeScript, API development, and working with
+            ORMs for efficient database interactions.
+          </p>
+        </div>
+        <div
+          class="bg-gradient-to-r from-slate-800 to-slate-700 rounded-lg p-6 shadow-xl"
+        >
+          <h3 class="text-xl font-semibold text-cyan-300 mb-4">My Journey</h3>
+          <p class="text-lg leading-relaxed">
+            Throughout my journey, I've demonstrated a strong work ethic and an
+            insatiable appetite for learning. My portfolio includes diverse
+            projects, from Facebook pages to bespoke websites for individual
+            clients and academic endeavors.
+          </p>
+        </div>
+        <div
+          class="bg-gradient-to-r from-slate-800 to-slate-700 rounded-lg p-6 shadow-xl"
+        >
+          <h3 class="text-xl font-semibold text-cyan-300 mb-4">My Ambition</h3>
+          <p class="text-lg leading-relaxed">
+            As an ambitious young professional, I'm eager to push the boundaries
+            of intelligent systems engineering. I'm ready to embrace new
+            challenges and make meaningful contributions to the tech world with
+            my skills and enthusiasm.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="mx-auto max-w-4xl px-6 py-2 md:mt-5">
+      <h2 class="text-4xl font-bold text-center mb-12 text-cyan-300">Skills</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+        {
+          currentSkills.map((item) => (
+            <article class="group bg-slate-800/50 hover:bg-slate-700/50 rounded-xl shadow-lg transition-all duration-300 overflow-hidden">
+              <div class="p-6 flex flex-col items-center">
+                <Svg icon={item.icon} />
+                <span class="text-lg font-semibold text-slate-200 group-hover:text-white text-center transition-colors duration-300">
+                  {item.skill}
+                </span>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+  </main>
   <Footer />
 </Layout>
 
@@ -73,17 +96,17 @@ const currentSkills: Skill[] = skills;
     src: url(../Fonts/Helvetica.ttf);
   }
   @font-face {
-    font-family: "lato_regular";
+    font-family: "Lato";
     src: url(../Fonts/Lato-Regular.ttf);
+    font-weight: normal;
+    font-style: normal;
   }
-  .content_about {
-    p {
-      line-height: 1.9;
-      font-family: "lato_regular";
-    }
+  main {
+    font-family: "Lato", sans-serif;
   }
-
-  .textWidthFitContent {
-    width: fit-content;
+  h1,
+  h2,
+  h3 {
+    font-family: "Helvetica", sans-serif;
   }
 </style>

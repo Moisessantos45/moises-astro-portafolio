@@ -1,5 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import { Image } from "astro:assets";
 import Footer from "@/components/Footer.astro";
 import { obtenerDatos, obtenerProyectos } from "@/service/api";
 import type { TypeProyects } from "@/types/data";
@@ -27,10 +28,11 @@ export async function getStaticPaths() {
       <div class="aspect-w-3 aspect-h-2 gap-2 flex flex-col">
         {
           data[0].imagenesProyect.map((item) => (
-            <img
-              src={`${item}`}
+            <Image
+              src={item}
               alt="image proyect"
-              loading="lazy"
+              width={800}
+              height={600}
               class="h-full w-full border border-slate-400 rounded-lg object-cover object-center"
             />
           ))
@@ -98,5 +100,18 @@ export async function getStaticPaths() {
     box-shadow: 1px 1px 15px 2px #ccd3dc;
     color: #1ac0ec;
     font-weight: bold;
+  }
+
+  .image-container {
+    background-color: #f0f0f0; /* Color de fondo mientras se carga */
+  }
+
+  .fade-in {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+  }
+
+  .fade-in.loaded {
+    opacity: 1;
   }
 </style>

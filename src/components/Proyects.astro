@@ -7,11 +7,16 @@ import { fromToJsonMap } from "@/service/data.service";
 import type { TypeProyects } from "../types/data";
 const url = import.meta.env.URL_BACKEND_HOST_API;
 
-const res = await axios(`${url}/Api/1.0/Proyects`);
-const data = res.data ? res.data : [];
-const convertData: TypeProyects[] = data.map(fromToJsonMap);
-const proyects: TypeProyects[] =
-  convertData.length !== 0 ? data.slice(0, 4) : [];
+let proyects: TypeProyects[] = [];
+
+try {
+  const res = await axios.get<TypeProyects[]>(`${url}/Api/1.0/Proyects`);
+  const data = res.data ?? []; // Uso de optional chaining para asignación segura
+  const convertData = data.map(fromToJsonMap);
+  proyects = convertData.length ? data.slice(0, 4) : [];
+} catch (error) {
+  proyects = [];
+}
 ---
 
 <section class="m-auto max-w-screen-lg">
