@@ -1,17 +1,17 @@
 ---
-// export const prerender = true;
+export const prerender = true;
 import Layout from "@/layouts/Layout.astro";
 import { Image } from "astro:assets";
 import Footer from "@/components/Footer.astro";
-import { obtenerDatos, obtenerProyectos } from "@/service/api";
+import { obtenerDatos, obtenerProyectos, initialState } from "@/service/api";
 import type { TypeProyects } from "@/types/data";
 
 const { id } = Astro.params;
-let data: TypeProyects[] = [];
+let data: TypeProyects = initialState;
 try {
   data = await obtenerDatos(id);
 } catch (error) {
-  data = [];
+  data = initialState;
 }
 
 export async function getStaticPaths() {
@@ -21,42 +21,51 @@ export async function getStaticPaths() {
   }));
 }
 ---
+
 <Layout title="Proyects Moy">
   <section class="mx-auto max-w-screen-lg px-6 py-8 bg-[#0f172a]">
     <p class="text-center text-3xl font-bold text-cyan-400 mb-6">
-      {data[0].title}
+      {data.title}
     </p>
     <article class="mx-auto mt-5 sm:max-w-prose w-full">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {data[0].imagenesProyect.map((item) => (
-          <Image
-            src={item}
-            alt="image proyect"
-            width={800}
-            height={600}
-            class="border border-slate-600 rounded-lg object-cover object-center"
-          />
-        ))}
+        {
+          data.imagenesProyect.map((item) => (
+            <Image
+              src={item}
+              alt="image proyect"
+              width={800}
+              height={600}
+              class="border border-slate-600 rounded-lg object-cover object-center"
+            />
+          ))
+        }
       </div>
-      <div class="prose prose-invert mt-8 prose-img:rounded-lg text-base text-slate-300">
-        <p>{data[0].description}</p>
+      <div
+        class="prose prose-invert mt-8 prose-img:rounded-lg text-base text-slate-300"
+      >
+        <p>{data.description}</p>
       </div>
       <article class="mt-10">
         <h1 class="text-3xl font-bold text-cyan-400 mb-4">Characteristics</h1>
         <ul class="list-disc list-inside space-y-2 pl-4">
-          {data[0].caracteristicas.map((item) => (
-            <li class="text-base text-slate-300">{item}</li>
-          ))}
+          {
+            data.caracteristicas.map((item) => (
+              <li class="text-base text-slate-300">{item}</li>
+            ))
+          }
         </ul>
       </article>
       <article class="mt-10">
         <h1 class="text-3xl font-bold text-cyan-400 mb-4">Technologies</h1>
         <ul class="flex flex-wrap gap-3">
-          {data[0].tecnologies.map((item) => (
-            <li class="outline outline-2 outline-slate-600 p-2 rounded-md hover:bg-slate-700 transition-colors duration-300 flex items-center justify-center min-w-[120px] text-slate-200">
-              {item}
-            </li>
-          ))}
+          {
+            data.tecnologies.map((item) => (
+              <li class="outline outline-2 outline-slate-600 p-2 rounded-md hover:bg-slate-700 transition-colors duration-300 flex items-center justify-center min-w-[120px] text-slate-200">
+                {item}
+              </li>
+            ))
+          }
         </ul>
       </article>
     </article>

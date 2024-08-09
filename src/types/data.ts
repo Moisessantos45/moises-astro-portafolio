@@ -61,6 +61,7 @@ interface TypeProyects {
   link: string;
   createdAt: string;
   link_github: TypeLinks;
+  status: string;
 }
 
 export { technologiesColors };

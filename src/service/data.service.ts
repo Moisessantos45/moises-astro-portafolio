@@ -3,7 +3,7 @@ import type { TypeProyects } from "@/types/data";
 const fromToJsonMap = (data: { [key: string]: any }): TypeProyects => {
   return {
     id: data["id"],
-    title: data["title"],
+    title: data["title"] || "",
     description: data["description"],
     tecnologies: data["tecnologies"],
     caracteristicas: data["caracteristicas"],
@@ -12,6 +12,7 @@ const fromToJsonMap = (data: { [key: string]: any }): TypeProyects => {
     link: data["link"],
     createdAt: data["createdAt"],
     link_github: data["link_gitHub"],
+    status: data["status"],
   };
 };
 
