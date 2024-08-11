@@ -34,18 +34,21 @@ const { proyect } = Astro.props;
         link={proyect.link_github?.frontend || "#"}
         text="Frontend"
         icon="code"
+        client:load
       />
       <Links
         link={proyect.link_github?.backend || "#"}
         text="Backend"
         icon="code"
+        client:load
       />
       <Links
         link={`/Post/${proyect.id}`}
         text="Details"
         icon="external-link"
+        client:load
       />
-      <Links link={proyect?.link || "#"} text="Website" icon="globe"/>
+      <Links link={proyect?.link || "#"} text="Website" icon="globe" client:load/>
     </div>
   </div>
 </figure>
