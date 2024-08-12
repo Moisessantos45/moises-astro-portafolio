@@ -23,11 +23,11 @@ const iconMap = {
   {text}
 </a>
 
-<script>
+<script is:inline>
   document.addEventListener("DOMContentLoaded", () => {
     const links = document.querySelectorAll(
       ".link-external"
-    ) as NodeListOf<HTMLAnchorElement>;
+    )
 
     links.forEach((link) => {
       link.addEventListener("click", (e) => {
