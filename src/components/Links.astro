@@ -23,18 +23,4 @@ const iconMap = {
   {text}
 </a>
 
-<script>
-  const links = document.querySelectorAll(
-    ".link-external"
-  ) as NodeListOf<HTMLAnchorElement>;
-    
-  links.forEach((link) => {
-    link.addEventListener("click", (e) => {
-      const elementA = e.target as HTMLAnchorElement;
-      const href = elementA.getAttribute("href");
-      if (href && href === "#") {
-        e.preventDefault();
-      }
-    });
-  });
-</script>
+<script src="../scripts/links-script.ts"></script>

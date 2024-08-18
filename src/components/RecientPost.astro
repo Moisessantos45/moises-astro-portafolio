@@ -1,24 +1,20 @@
 ---
-import axios from "axios";
 import Loading from "./Loading.astro";
 import Cards from "./Cards.astro";
 import type { TypeProyects } from "../types/data";
-import { fromToJsonMap } from "@/service/data.service";
+import { obtenerProyectos } from "@/service/api";
 
-const url = import.meta.env.URL_BACKEND_HOST_API;
 let proyectsData: TypeProyects[] = [];
 try {
-  const res = await axios.get<TypeProyects[]>(`${url}/Api/1.0/Proyects`);
-  const data = res.data ?? [];
-  const convertData = data.map(fromToJsonMap);
-  proyectsData = convertData.length ? convertData.slice(0, 3) : [];
+  const res = await obtenerProyectos();
+  proyectsData = res.length ? res.slice(0, 3) : [];
 } catch (error) {
   proyectsData = [];
 }
 ---
 
 <section class="mx-auto max-w-screen-lg px-3 py-6">
-  <div class="flex items-baseline justify-between p-2 m-3">
+  <div class="flex items-baseline justify-between py-5">
     <span
       class="bg-gradient-to-br from-sky-500 text-2xl font-bold to-cyan-400 bg-clip-text text-transparent text-white"
       >Recient <span class="text-cyan-400"> Post </span>

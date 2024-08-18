@@ -1,25 +1,21 @@
 ---
-import axios from "axios";
 import Loading from "./Loading.astro";
 import type { tecnology } from "../types/data";
-import { technologiesColors } from "../types/data";
-import { fromToJsonMap } from "@/service/data.service";
 import type { TypeProyects } from "../types/data";
-const url = import.meta.env.URL_BACKEND_HOST_API;
+import { technologiesColors } from "../types/data";
+import { obtenerProyectos } from "@/service/api";
 
 let proyects: TypeProyects[] = [];
 
 try {
-  const res = await axios.get<TypeProyects[]>(`${url}/Api/1.0/Proyects`);
-  const data = res.data ?? []; // Uso de optional chaining para asignación segura
-  const convertData = data.map(fromToJsonMap);
-  proyects = convertData.length ? data.slice(0, 4) : [];
+  const res = await obtenerProyectos();
+  proyects = res.length ? res.slice(0, 4) : [];
 } catch (error) {
   proyects = [];
 }
 ---
 
-<section class="m-auto max-w-screen-lg">
+<section class="m-auto max-w-screen-lg lg:px-0 px-2">
   <div class="mb-6 text-2xl font-bold text-white">
     <h1>
       Recent
