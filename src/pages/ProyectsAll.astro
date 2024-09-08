@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import Loading from "@/components/Loading.astro";
 import Cards from "@/components/Cards.astro";
+import Footer from "@/components/Footer.astro";
 import { obtenerProyectos } from "../service/api";
 import type { TypeProyects } from "../types/data";
 
@@ -22,4 +23,5 @@ const getAllProyects: TypeProyects[] = await obtenerProyectos();
       {getAllProyects.map((proyect) => <Cards proyect={proyect} />)}
     </article>
   </section>
+  <Footer />
 </Layout>

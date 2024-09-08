@@ -4,6 +4,7 @@ const fromToJsonMap = (data: { [key: string]: any }): TypeProyects => {
   return {
     id: data["id"],
     title: data["title"] || "",
+    typeProyect: data["typeProyect"] || "",
     description: data["description"],
     tecnologies: data["tecnologies"],
     caracteristicas: data["caracteristicas"],

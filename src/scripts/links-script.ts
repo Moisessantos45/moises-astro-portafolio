@@ -8,5 +8,3 @@ document.addEventListener("click", (e) => {
     }
   }
 });
-
-console.log("Links script loaded");

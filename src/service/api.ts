@@ -6,6 +6,7 @@ const url = import.meta.env.URL_BACKEND_HOST_API;
 const initialState: TypeProyects = {
   id: "",
   title: "",
+  typeProyect: "",
   description: "",
   tecnologies: [],
   caracteristicas: [],
