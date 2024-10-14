@@ -17,6 +17,14 @@ const { proyect } = Astro.props;
   >
     {proyect.typeProyect}
   </span>
+  <!-- <button
+    id="likeButton"
+    class="absolute top-2 right-2 bg-gray-600 bg-opacity-70 hover:bg-opacity-90 text-white rounded-full p-2 transition-all duration-300 z-10 flex items-center space-x-1"
+    aria-label="Me gusta"
+  >
+    <i class="fa-regular fa-thumbs-up icon-like" data-id={proyect.id}></i>
+    <span class="text-xs font-bold couter_like">{proyect.counter_likes}</span>
+  </button> -->
 
   <img
     src={proyect.image}
@@ -53,8 +61,10 @@ const { proyect } = Astro.props;
 </figure>
 
 <script src="../scripts/observer_cards.ts"></script>
+<!-- <script src="../scripts/couter_likes.ts"></script> -->
 
 <style>
+  @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css");
   .card__project {
     opacity: 0;
     transition: 150ms;

@@ -7,7 +7,7 @@ import { obtenerProyectos } from "@/service/api";
 let proyectsData: TypeProyects[] = [];
 try {
   const res = await obtenerProyectos();
-  proyectsData = res.length ? res.slice(0, 3) : [];
+  proyectsData = res.length ? res.slice(0,3) : [];
 } catch (error) {
   proyectsData = [];
 }

@@ -14,6 +14,7 @@ const fromToJsonMap = (data: { [key: string]: any }): TypeProyects => {
     createdAt: data["createdAt"],
     link_github: data["link_gitHub"],
     status: data["status"],
+    counter_likes: data["counter_likes"],
   };
 };
 
