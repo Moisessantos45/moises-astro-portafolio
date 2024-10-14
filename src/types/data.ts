@@ -5,6 +5,7 @@ const technologiesColors = {
   Flutter: "bg-blue-500 text-blue-900",
   "Next js": "bg-black text-white",
   "Vue js": "bg-green-500 text-green-900",
+  pinia: "bg-green-500 text-green-900",
   "Tailwind css": "bg-cyan-500 text-cyan-900",
   TailwindCss: "bg-cyan-500 text-cyan-900",
   "Node js": "bg-green-500 text-green-900",
