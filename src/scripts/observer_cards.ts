@@ -19,5 +19,5 @@ const setupCardAnimation = () => {
   });
 };
 
-document.addEventListener("DOMContentLoaded", setupCardAnimation);
+// document.addEventListener("DOMContentLoaded", setupCardAnimation);
 document.addEventListener("astro:page-load", setupCardAnimation);

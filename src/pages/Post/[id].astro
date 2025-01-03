@@ -3,16 +3,28 @@ export const prerender = true;
 import Layout from "@/layouts/Layout.astro";
 import { Image } from "astro:assets";
 import Footer from "@/components/Footer.astro";
-import { obtenerDatos, obtenerProyectos, initialState } from "@/service/api";
+import { obtenerProyectos, initialState } from "@/service/api";
 import type { TypeProyects } from "@/types/data";
+import { supabase } from "@/api/config";
+import { fromToJsonMap } from "@/service/data.service";
 
 const { id } = Astro.params;
-let data: TypeProyects = initialState;
-try {
-  data = await obtenerDatos(id);
-} catch (error) {
-  data = initialState;
-}
+
+const getProjects = async (): Promise<TypeProyects> => {
+  try {
+    const { data, error } = await supabase
+      .from("Proyectos")
+      .select("*")
+      .eq("id", id)
+      .single();
+    if (error) throw error;
+    const dataProjects = fromToJsonMap(data);
+    return dataProjects;
+  } catch (error) {
+    return initialState;
+  }
+};
+const data: TypeProyects = await getProjects().then((res) => res);
 
 export async function getStaticPaths() {
   const pagesProyects: TypeProyects[] = await obtenerProyectos();
@@ -24,48 +36,82 @@ export async function getStaticPaths() {
 
 <Layout title="Proyects Moy">
   <section class="mx-auto max-w-screen-lg px-6 py-8 bg-[#0f172a]">
-    <p class="text-center text-3xl font-bold text-cyan-400 mb-6">
-      {data.title}
-    </p>
+    <div class="flex flex-col items-center gap-2 mb-8">
+      <h1 class="text-4xl font-bold text-cyan-400">{data.title}</h1>
+      <span class="px-3 py-1 text-sm bg-cyan-500/10 text-cyan-400 rounded-full">
+        {data.typeProyect}
+      </span>
+    </div>
+
     <article class="mx-auto mt-5 sm:max-w-prose w-full">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {
           data.imagenesProyect.map((item) => (
-            <Image
-              src={item}
-              alt="image proyect"
-              width={800}
-              height={600}
-              class="border border-slate-600 rounded-lg object-cover object-center"
-            />
+            <div class="relative group">
+              <Image
+                src={item}
+                alt={`${data.title} project screenshot`}
+                width={800}
+                height={600}
+                class="border border-slate-600 rounded-lg object-cover object-center transition-transform duration-300 group-hover:scale-[1.02]"
+              />
+            </div>
           ))
         }
       </div>
-      <div
-        class="prose prose-invert mt-8 prose-img:rounded-lg text-base text-slate-300"
-      >
+
+      <div class="prose prose-invert mt-8 prose-img:rounded-lg text-base text-slate-300">
         <p>{data.description}</p>
       </div>
+
+      <div class="flex gap-4 mt-6">
+        {!data.link.includes("#") && (
+          <a
+            href={data.link}
+            target="_blank"
+            rel="noopener"
+            class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-cyan-400 border border-cyan-400 rounded-lg hover:bg-cyan-400/10 transition-colors"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+              <polyline points="15 3 21 3 21 9" />
+              <line x1="10" y1="14" x2="21" y2="3" />
+            </svg>
+            Frontend Demo
+          </a>
+        )}
+        {data.links.backend && (
+          <a
+            href={data.links.backend}
+            target="_blank"
+            rel="noopener"
+            class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-cyan-400 border border-cyan-400 rounded-lg hover:bg-cyan-400/10 transition-colors"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 16V9h14V2H5L19 16h-5.5l-7-7" />
+            </svg>
+            API Docs
+          </a>
+        )}
+      </div>
+
       <article class="mt-10">
-        <h1 class="text-3xl font-bold text-cyan-400 mb-4">Characteristics</h1>
+        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Characteristics</h2>
         <ul class="list-disc list-inside space-y-2 pl-4">
-          {
-            data.caracteristicas.map((item) => (
-              <li class="text-base text-slate-300">{item}</li>
-            ))
-          }
+          {data.characteristics.map((item) => (
+            <li class="text-base text-slate-300">{item}</li>
+          ))}
         </ul>
       </article>
+
       <article class="mt-10">
-        <h1 class="text-3xl font-bold text-cyan-400 mb-4">Technologies</h1>
+        <h2 class="text-3xl font-bold text-cyan-400 mb-4">Technologies</h2>
         <ul class="flex flex-wrap gap-3">
-          {
-            data.tecnologies.map((item) => (
-              <li class="outline outline-2 outline-slate-600 p-2 rounded-md hover:bg-slate-700 transition-colors duration-300 flex items-center justify-center min-w-[120px] text-slate-200">
-                {item}
-              </li>
-            ))
-          }
+          {data.tecnologies.map((item) => (
+            <li class="px-4 py-2 bg-slate-800/50 text-slate-200 rounded-lg border border-slate-700 hover:border-cyan-400 hover:text-cyan-400 transition-all duration-300 cursor-default">
+              {item}
+            </li>
+          ))}
         </ul>
       </article>
     </article>

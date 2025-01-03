@@ -1,49 +1,52 @@
 const technologiesColors = {
-  Html: "bg-red-500 text-red-900",
-  Css: "bg-blue-500 text-blue-900",
-  React: "bg-blue-500 text-blue-900",
-  Flutter: "bg-blue-500 text-blue-900",
-  "Next js": "bg-black text-white",
-  "Vue js": "bg-green-500 text-green-900",
+  html: "bg-red-500 text-red-900",
+  css: "bg-blue-500 text-blue-900",
+  react: "bg-blue-500 text-blue-900",
+  flutter: "bg-blue-500 text-blue-900",
+  "next js": "bg-black text-white",
+  "vue js": "bg-green-500 text-green-900",
+  astro: "bg-black text-white",
   pinia: "bg-green-500 text-green-900",
-  "Tailwind css": "bg-cyan-500 text-cyan-900",
-  TailwindCss: "bg-cyan-500 text-cyan-900",
-  "Node js": "bg-green-500 text-green-900",
-  Express: "bg-gray-500 text-gray-900",
-  Fastify: "bg-blue-500 text-blue-900",
+  tailwindcss: "bg-cyan-500 text-cyan-900",
+  "node js": "bg-green-500 text-green-900",
+  express: "bg-gray-500 text-gray-900",
+  fastify: "bg-blue-500 text-blue-900",
   zustand: "bg-blue-500 text-blue-900",
-  "React Query": "bg-blue-500 text-blue-900",
-  "Socket IO": "bg-black text-white",
-  MongoDB: "bg-green-500 text-green-900",
-  Firebase: "bg-yellow-500 text-yellow-900",
-  PostgreSQL: "bg-blue-500 text-blue-900",
-  GraphQL: "bg-pink-500 text-pink-900",
-  Apollo: "bg-gray-500 text-gray-900",
-  Prisma: "bg-gray-500 text-gray-900",
-  TypeScript: "bg-blue-500 text-blue-900",
-  JavaScript: "bg-yellow-500 text-yellow-900",
-  Dart: "bg-blue-500 text-blue-900",
-  HTML: "bg-red-500 text-red-900",
-  CSS: "bg-blue-500 text-blue-900",
-  SASS: "bg-pink-500 text-pink-900",
-  Bootstrap: "bg-purple-500 text-purple-900",
-  "Material-UI": "bg-blue-500 text-blue-900",
-  Figma: "bg-purple-500 text-purple-900",
-  "Adobe XD": "bg-red-500 text-red-900",
-  Photoshop: "bg-blue-500 text-blue-900",
-  Illustrator: "bg-yellow-500 text-yellow-900",
-  InDesign: "bg-red-500 text-red-900",
-  "After Effects": "bg-green-500 text-green-900",
-  "Premiere Pro": "bg-pink-500 text-pink-900",
-  MongoDb: "bg-green-500 text-green-900",
-  JWT: "bg-black text-white",
-  "MUI/UI React": "bg-blue-500 text-blue-900",
-  "React-Query": "bg-blue-500 text-blue-900",
-  Pug: "bg-green-500 text-green-900",
-  MySQL: "bg-blue-500 text-blue-900",
-  Python: "bg-blue-500 text-blue-900",
-  FastAPI: "bg-green-500 text-green-900",
-  Flet: "bg-blue-500 text-blue-900",
+  "react query": "bg-blue-500 text-blue-900",
+  "socket io": "bg-black text-white",
+  mongodb: "bg-green-500 text-green-900",
+  firebase: "bg-yellow-500 text-yellow-900",
+  postgresql: "bg-blue-500 text-blue-900",
+  graphql: "bg-pink-500 text-pink-900",
+  apollo: "bg-gray-500 text-gray-900",
+  prisma: "bg-gray-500 text-gray-900",
+  typescript: "bg-blue-500 text-blue-900",
+  javascript: "bg-yellow-500 text-yellow-900",
+  dart: "bg-blue-500 text-blue-900",
+  sass: "bg-pink-500 text-pink-900",
+  bootstrap: "bg-purple-500 text-purple-900",
+  "material-ui": "bg-blue-500 text-blue-900",
+  figma: "bg-purple-500 text-purple-900",
+  "adobe xd": "bg-red-500 text-red-900",
+  photoshop: "bg-blue-500 text-blue-900",
+  illustrator: "bg-yellow-500 text-yellow-900",
+  indesign: "bg-red-500 text-red-900",
+  "after effects": "bg-green-500 text-green-900",
+  "premiere pro": "bg-pink-500 text-pink-900",
+  jwt: "bg-black text-white",
+  "mui/ui react": "bg-blue-500 text-blue-900",
+  "react-query": "bg-blue-500 text-blue-900",
+  pug: "bg-green-500 text-green-900",
+  mysql: "bg-blue-500 text-blue-900",
+  python: "bg-blue-500 text-blue-900",
+  fastapi: "bg-green-500 text-green-900",
+  flet: "bg-blue-500 text-blue-900",
+  "vue router": "bg-green-500 text-green-900",
+  "vue-query": "bg-green-500 text-green-900",
+  "firebase-storage": "bg-yellow-500 text-yellow-900",
+  vuefire: "bg-green-500 text-green-900",
+  "toastify-js": "bg-blue-500 text-blue-900",
+  formkit: "bg-blue-500 text-blue-900",
 };
 
 type tecnology = keyof typeof technologiesColors;
@@ -67,15 +70,15 @@ interface TypeProyects {
   typeProyect: string;
   description: string;
   tecnologies: string[];
-  caracteristicas: string[];
+  characteristics: string[];
   image: string;
   imagenesProyect: string[];
   link: string;
   createdAt: string;
-  link_github: TypeLinks;
+  links: TypeLinks;
   status: string;
   counter_likes: number;
 }
 
 export { technologiesColors };
-export type { Proyect, tecnology, TypeProyects };
+export type { Proyect, tecnology, TypeProyects, TypeLinks };

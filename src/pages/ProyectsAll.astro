@@ -1,12 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Loading from "@/components/Loading.astro";
-import Cards from "@/components/Cards.astro";
 import Footer from "@/components/Footer.astro";
-import { obtenerProyectos } from "../service/api";
-import type { TypeProyects } from "../types/data";
-
-const getAllProyects: TypeProyects[] = await obtenerProyectos();
+import PageProjects from "@/components/section/PageProjects.vue";
 ---
 
 <Layout title="Post Projecs">
@@ -19,8 +14,7 @@ const getAllProyects: TypeProyects[] = await obtenerProyectos();
       </h1>
     </div>
     <article class="grid grid-cols-1 gap-6 md:grid-cols-3">
-      {getAllProyects.length === 0 ? <Loading /> : null}
-      {getAllProyects.map((proyect) => <Cards proyect={proyect} />)}
+      <PageProjects client:load />
     </article>
   </section>
   <Footer />
