@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const technologiesColors = {
   html: "bg-red-500 text-red-900",
   css: "bg-blue-500 text-blue-900",
@@ -47,6 +49,9 @@ const technologiesColors = {
   vuefire: "bg-green-500 text-green-900",
   "toastify-js": "bg-blue-500 text-blue-900",
   formkit: "bg-blue-500 text-blue-900",
+  supabase: "bg-blue-500 text-blue-900",
+  axios: "bg-blue-500 text-blue-900",
+  provider: "bg-blue-500 text-blue-900",
 };
 
 type tecnology = keyof typeof technologiesColors;

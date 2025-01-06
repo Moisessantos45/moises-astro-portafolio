@@ -25,7 +25,12 @@
     <img
       :src="localProyect.image"
       alt="Hero"
-      class="w-full h-36 transition-transform transform hover:scale-110 object-fill"
+      :class="[
+        proyect.typeProyect === 'mobile-app'
+          ? 'object-cover object-top'
+          : 'object-fill',
+        'w-full h-36 transition-transform transform hover:scale-110',
+      ]"
       loading="lazy"
     />
     <div class="p-2 text-center">

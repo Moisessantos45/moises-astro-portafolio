@@ -11,7 +11,11 @@
       class="flex justify-center items-center shrink-0 mb-4 md:mb-0 md:mr-8"
     >
       <img
-        class="h-32 w-48 rounded-lg transition-transform transform hover:translate-y-1"
+        :class="[
+          proyect.typeProyect === 'mobile-app' && 'object-cover object-top',
+          ,
+          'h-32 w-48 rounded-lg transition-transform transform hover:translate-y-1]',
+        ]"
         :src="proyect.image"
         :alt="proyect.title"
       />
