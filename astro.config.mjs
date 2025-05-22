@@ -10,6 +10,14 @@ export default defineConfig({
   integrations: [tailwind(), vue()],
   output: "static",
   adapter: vercel(),
+  headers: {
+    '/*': [
+      {
+        key: 'Cache-Control',
+        value: 'public, max-age=31536000'
+      }
+    ]
+  },
   env: {
     schema: {
       SUPABASE_URL: envField.string({ context: "client", access: "public" }),

@@ -33,26 +33,40 @@
       ]"
       loading="lazy"
     />
-    <div class="p-2 text-center">
+    <div class="p-4 flex flex-col h-[calc(100%-9rem)]">
       <h1
         class="text-xl font-bold mb-2 text-white hover:text-cyan-400 transition-colors"
       >
         {{ localProyect.title }}
       </h1>
-      <div class="mb-4 h-24 overflow-hidden">
-        <p class="mt-2 text-sm text-slate-200">
-          {{ localProyect.description.substring(0, 130) }}....
+      <div class="flex-grow mb-4">
+        <p class="text-sm text-slate-200 line-clamp-3">
+          {{ localProyect.description }}
         </p>
       </div>
-      <div class="flex flex-wrap gap-2 justify-center">
-        <Link :link="localProyect.links.frontend" text="Frontend" icon="code" />
-        <Link :link="localProyect.links.backend" text="Backend" icon="code" />
-        <Link
-          :link="`/Post/${localProyect.id}`"
-          text="Details"
-          icon="external-link"
-        />
-        <Link :link="localProyect.link" text="Website" icon="globe" />
+      <div class="space-y-4">
+        <div class="technologies-container min-h-[80px]">
+          <ul class="flex flex-wrap gap-1.5">
+            <li v-for="(item, index) in proyect.tecnologies" :key="index"
+              :class="[
+                'rounded-full px-2 py-0.5 text-[11px] font-medium text-white transition-colors',
+                technologiesColors[item.toLowerCase() as keyof typeof technologiesColors],
+              ]"
+            >
+              {{ item }}
+            </li>
+          </ul>
+        </div>
+        <div class="flex flex-wrap gap-2 justify-center pt-2 border-t border-slate-700">
+          <Link :link="localProyect.links.frontend" text="Frontend" icon="code" />
+          <Link :link="localProyect.links.backend" text="Backend" icon="code" />
+          <Link
+            :link="`/Post/${localProyect.id}`"
+            text="Details"
+            icon="external-link"
+          />
+          <Link :link="localProyect.link" text="Website" icon="globe" />
+        </div>
       </div>
     </div>
   </figure>
@@ -60,7 +74,7 @@
 
 <script setup lang="ts">
 import { reactive, ref } from "vue";
-import type { TypeProyects } from "@/types/data";
+import { technologiesColors, type TypeProyects } from "@/types/data";
 import Link from "./Ui/Link.vue";
 import { supabase } from "@/api/config";
 
@@ -104,5 +118,10 @@ const saveLike = async (proyect: TypeProyects) => {
 
 .show {
   opacity: 1;
+}
+
+.technologies-container {
+  display: flex;
+  align-items: flex-start;
 }
 </style>
