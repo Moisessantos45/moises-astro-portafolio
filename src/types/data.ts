@@ -1,5 +1,3 @@
-import axios from "axios";
-
 const technologiesColors = {
   html: "bg-red-500 text-red-900",
   css: "bg-blue-500 text-blue-900",
@@ -11,6 +9,7 @@ const technologiesColors = {
   pinia: "bg-green-500 text-green-900",
   tailwindcss: "bg-cyan-500 text-cyan-900",
   "node js": "bg-green-500 text-green-900",
+  nodejs: "bg-green-500 text-green-900",
   express: "bg-gray-500 text-gray-900",
   fastify: "bg-blue-500 text-blue-900",
   zustand: "bg-blue-500 text-blue-900",
@@ -76,6 +75,7 @@ interface TypeProyects {
   description: string;
   tecnologies: string[];
   characteristics: string[];
+  learning: string[];
   image: string;
   imagenesProyect: string[];
   link: string;
