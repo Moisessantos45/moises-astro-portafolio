@@ -9,6 +9,7 @@ const initialState: TypeProyects = {
   description: "",
   tecnologies: [],
   characteristics: [],
+  learning: [],
   image: "",
   imagenesProyect: [],
   link: "",
