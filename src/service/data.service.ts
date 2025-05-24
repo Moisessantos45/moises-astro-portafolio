@@ -12,6 +12,7 @@ const fromToJsonMap = (data: { [key: string]: any }): TypeProyects => {
     description: data["description"] || "",
     tecnologies: serializeToJson<string[]>(data["tecnologies"]),
     characteristics: serializeToJson<string[]>(data["characteristics"]),
+    learning: serializeToJson<string[]>(data["learning"]),
     image: data["image"],
     imagenesProyect: serializeToJson<string[]>(data["imagenesProyect"]),
     link: data["link"],
