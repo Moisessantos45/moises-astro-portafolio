@@ -185,6 +185,36 @@ export async function getStaticPaths() {
             }
           </ul>
         </article>
+
+        <article
+          class="bg-slate-800/30 rounded-2xl p-8 backdrop-blur-sm border border-slate-700/50"
+        >
+          <h2
+            class="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mb-6"
+          >
+            Aprendizajes
+          </h2>
+          <ul class="grid gap-3 pl-4">
+            {data.learning.map((item) => (
+              <li class="flex items-center gap-3 text-slate-300">
+                <svg
+                  class="w-5 h-5 text-cyan-400 flex-shrink-0"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 12l2 2 4-4"
+                  />
+                </svg>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </article>
       </div>
     </article>
   </section>
