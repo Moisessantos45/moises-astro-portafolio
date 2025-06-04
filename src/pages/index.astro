@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import Hero from "../components/Hero.astro";
 import Proyects from "../components/Proyects.astro";
 import LastedProjetc from "@/components/section/LastedProjetc.vue";
+import Experience from "@/components/section/Experience.vue";
 import Footer from "../components/Footer.astro";
 ---
 
@@ -10,5 +11,6 @@ import Footer from "../components/Footer.astro";
   <Hero />
   <Proyects />
   <LastedProjetc client:load />
+  <Experience client:load />
   <Footer />
 </Layout>
