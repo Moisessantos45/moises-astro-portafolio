@@ -2,6 +2,7 @@
 import Footer from "@/components/Footer.astro";
 import Layout from "../layouts/Layout.astro";
 import Svg from "../components/Svg.astro";
+import Experience from "@/components/section/Experience.vue";
 import { skills } from "@skills";
 
 interface Skill {
@@ -138,8 +139,9 @@ const currentSkills: Skill[] = skills;
               </p>
             </div>
           </div>
-        </div>
-      </section>
+        </div>      </section>
+
+      <Experience client:load />
 
       <section class="relative mx-auto max-w-4xl px-6 py-20">
         <h2

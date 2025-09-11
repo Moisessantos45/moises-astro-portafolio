@@ -1,12 +1,6 @@
 <template>
   <Loading v-if="projects.length === 0" />
-  <CardItem
-    class="card__project"
-    v-for="proyect in projects"
-    :key="proyect.id"
-    :proyect="proyect"
-    ref="cardRefs"
-  />
+  <CardItem class="card__project" v-for="proyect in projects" :key="proyect.id" :proyect="proyect" ref="cardRefs" />
 </template>
 
 <script setup lang="ts">
@@ -30,7 +24,7 @@ const getProjects = async () => {
       const dateB = new Date(b.createdAt).getTime();
       return dateB - dateA;
     });
-    projects.value = dataProjects;
+    projects.value = dataProjects.filter(item => item.status === "active");
   } catch (error) {
     projects.value = [];
   }
@@ -60,6 +54,7 @@ onMounted(() => {
 
 <style scoped>
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css");
+
 .card__project {
   opacity: 0;
   transition: 150ms;

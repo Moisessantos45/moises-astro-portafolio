@@ -142,8 +142,8 @@ const experiences = ref<Experience[]>([
     id: "1",
     title: "Web Developer",
     company: "Toman jido-ka ikigai Company",
-    period: "May 2024 - current 2025",
-    status: "current",
+    period: "May 2024 - August 2024",
+    status: "completed",
     description:
       "Development of modern web applications using technologies such as React, Vue, Node.js, and databases.",
   },
@@ -177,7 +177,7 @@ const experiences = ref<Experience[]>([
   {
     id: "5",
     title: "Website for parts management",
-    company: "Precision Industrial",
+    company: "Precision Digital",
     period: "March-July 2024",
     status: "completed",
     description:
@@ -186,7 +186,7 @@ const experiences = ref<Experience[]>([
   {
     id: "6",
     title: "Parts Management Website",
-    company: "Precision Industrial",
+    company: "Precision Digital",
     period: "March-July 2024",
     status: "completed",
     description:
