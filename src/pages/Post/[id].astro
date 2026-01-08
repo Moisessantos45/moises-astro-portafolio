@@ -34,61 +34,176 @@ export async function getStaticPaths() {
 }
 ---
 
-<Layout title="Proyects Moy">
+<Layout title={`${data.title} | Proyectos Moy`}>
   <section
     class="min-h-screen mx-auto max-w-screen-xl px-6 py-12 bg-gradient-to-b from-[#0f172a] to-[#1a2234]"
   >
-    <div class="flex flex-col items-center gap-4 mb-12">
+    <a
+      href="/#projects"
+      class="back-link inline-flex items-center gap-2 mb-8 px-4 py-2 text-sm font-medium text-slate-400 hover:text-cyan-300 transition-all duration-300 group"
+    >
+      <svg
+        class="w-5 h-5 transform group-hover:-translate-x-1 transition-transform duration-300"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M15 19l-7-7 7-7"></path>
+      </svg>
+      Volver a proyectos
+    </a>
+    <header class="flex flex-col items-center gap-6 mb-12 animate-fade-in">
+      <div class="flex flex-wrap items-center justify-center gap-3">
+        <span
+          class="px-4 py-2 text-sm font-medium bg-cyan-500/20 text-cyan-300 rounded-full shadow-lg shadow-cyan-500/10 backdrop-blur-sm"
+        >
+          {data.typeProyect}
+        </span>
+        <span
+          class={`px-4 py-2 text-sm font-medium rounded-full shadow-lg backdrop-blur-sm ${
+            data.status === "completed"
+              ? "bg-emerald-500/20 text-emerald-300 shadow-emerald-500/10"
+              : data.status === "in-progress"
+                ? "bg-amber-500/20 text-amber-300 shadow-amber-500/10"
+                : "bg-slate-500/20 text-slate-300 shadow-slate-500/10"
+          }`}
+        >
+          {
+            data.status === "completed"
+              ? "✓ Completado"
+              : data.status === "in-progress"
+                ? "◐ En desarrollo"
+                : data.status
+          }
+        </span>
+      </div>
+
       <h1
-        class="text-5xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent"
+        class="text-4xl sm:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent text-center"
       >
         {data.title}
       </h1>
-      <span
-        class="px-4 py-2 text-sm font-medium bg-cyan-500/20 text-cyan-300 rounded-full shadow-lg shadow-cyan-500/10 backdrop-blur-sm"
-      >
-        {data.typeProyect}
-      </span>
-    </div>
-
-    <article class="mx-auto mt-8 sm:max-w-4xl w-full">
       <div
-        class={`grid gap-6 ${
-          data.typeProyect === "mobile-app"
-            ? "grid-cols-2 sm:grid-cols-3"
-            : "grid-cols-1 sm:grid-cols-2"
-        }`}
+        class="flex flex-wrap items-center justify-center gap-6 text-sm text-slate-400"
+      >
+        <div class="flex items-center gap-2">
+          <svg
+            class="w-4 h-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+            ></path>
+          </svg>
+          <span>
+            {
+              new Date(data.createdAt).toLocaleDateString("es-MX", {
+                year: "numeric",
+                month: "long",
+              })
+            }
+          </span>
+        </div>
+        {
+          data.counter_likes > 0 && (
+            <div class="flex items-center gap-2">
+              <svg
+                class="w-4 h-4 text-red-400"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+              </svg>
+              <span>{data.counter_likes} likes</span>
+            </div>
+          )
+        }
+      </div>
+    </header>
+
+    <article class="mx-auto sm:max-w-5xl w-full">
+      <div
+        id="gallery-grid"
+        class="gallery-grid animate-fade-in-up"
+        style="animation-delay: 0.1s"
       >
         {
-          data.imagenesProyect.map((item) => (
-            <div class="relative group overflow-hidden rounded-xl">
+          data.imagenesProyect.map((item, index) => (
+            <div class="gallery-item relative group overflow-hidden rounded-xl">
               <Image
                 src={item}
-                alt={`${data.title} project screenshot`}
+                alt={`${data.title} captura de pantalla`}
                 width={800}
                 height={600}
-                class="border-2 border-slate-700/50 rounded-xl object-cover object-center transition-all duration-500 group-hover:scale-105 group-hover:border-cyan-400/50 shadow-xl"
+                class="project-image w-full h-full border-2 border-slate-700/50 rounded-xl object-cover object-center transition-all duration-500 group-hover:scale-105 group-hover:border-cyan-400/50 shadow-xl cursor-pointer"
+                data-index={index}
               />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+              <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                <svg
+                  class="w-10 h-10 text-white/80"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"
+                  />
+                </svg>
+              </div>
             </div>
           ))
         }
       </div>
 
-      <div class="prose prose-invert mt-12 prose-img:rounded-xl max-w-none">
+      <div
+        class="mt-12 animate-fade-in-up bg-slate-800/20 rounded-2xl p-8 border border-slate-700/30"
+        style="animation-delay: 0.2s"
+      >
+        <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-3">
+          <svg
+            class="w-6 h-6 text-cyan-400"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            ></path>
+          </svg>
+          Acerca del proyecto
+        </h2>
         <p class="text-lg leading-relaxed text-slate-300 font-light">
           {data.description}
         </p>
       </div>
 
-      <div class="flex flex-wrap gap-4 mt-8">
+      <div
+        class="flex flex-wrap gap-4 mt-8 animate-fade-in-up"
+        style="animation-delay: 0.3s"
+      >
         {
           !data.link.includes("#") && (
             <a
               href={data.link}
               target="_blank"
               rel="noopener"
-              class="flex items-center gap-2 px-6 py-3 text-sm font-medium text-cyan-300 bg-cyan-500/10 rounded-lg hover:bg-cyan-400/20 transition-all duration-300 shadow-lg shadow-cyan-500/5 hover:shadow-cyan-500/20"
+              class="flex items-center gap-2 px-6 py-3 text-sm font-medium bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg hover:from-cyan-400 hover:to-blue-400 transition-all duration-300 shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 hover:scale-105"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -104,7 +219,7 @@ export async function getStaticPaths() {
                 <polyline points="15 3 21 3 21 9" />
                 <line x1="10" y1="14" x2="21" y2="3" />
               </svg>
-              Demo Frontend
+              Ver Demo
             </a>
           )
         }
@@ -114,7 +229,7 @@ export async function getStaticPaths() {
               href={data.links.backend}
               target="_blank"
               rel="noopener"
-              class="flex items-center gap-2 px-6 py-3 text-sm font-medium text-cyan-300 bg-cyan-500/10 rounded-lg hover:bg-cyan-400/20 transition-all duration-300 shadow-lg shadow-cyan-500/5 hover:shadow-cyan-500/20"
+              class="flex items-center gap-2 px-6 py-3 text-sm font-medium text-cyan-300 bg-cyan-500/10 rounded-lg hover:bg-cyan-400/20 transition-all duration-300 shadow-lg shadow-cyan-500/5 hover:shadow-cyan-500/20 border border-cyan-500/30"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -126,29 +241,105 @@ export async function getStaticPaths() {
                 stroke-linecap="round"
                 stroke-linejoin="round"
               >
-                <path d="M5 16V9h14V2H5L19 16h-5.5l-7-7" />
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
               </svg>
-              Docs API
+              Documentación API
+            </a>
+          )
+        }
+        {
+          data.links.frontend && (
+            <a
+              href={data.links.frontend}
+              target="_blank"
+              rel="noopener"
+              class="flex items-center gap-2 px-6 py-3 text-sm font-medium text-slate-300 bg-slate-700/50 rounded-lg hover:bg-slate-600/50 transition-all duration-300 shadow-lg border border-slate-600/50"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-5 h-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+              </svg>
+              Código Fuente
             </a>
           )
         }
       </div>
 
-      <div class="mt-16 space-y-16">
+      <div class="mt-16 grid gap-8 lg:grid-cols-2">
         <article
-          class="bg-slate-800/30 rounded-2xl p-8 backdrop-blur-sm border border-slate-700/50"
+          class="bg-slate-800/30 rounded-2xl p-8 backdrop-blur-sm border border-slate-700/50 animate-fade-in-up lg:row-span-2"
+          style="animation-delay: 0.4s"
         >
           <h2
-            class="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mb-6"
+            class="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mb-6 flex items-center gap-3"
           >
-            Characterísticas
+            <svg
+              class="w-6 h-6 text-cyan-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+            </svg>
+            Stack Tecnológico
           </h2>
-          <ul class="grid gap-3 pl-4">
+          <p class="text-sm text-slate-400 mb-6">
+            Tecnologías y herramientas utilizadas en este proyecto
+          </p>
+          <ul class="flex flex-wrap gap-3">
+            {
+              data.tecnologies.map((item) => (
+                <li class="px-4 py-2 bg-slate-700/50 text-slate-200 rounded-lg border border-slate-600 hover:border-cyan-400 hover:text-cyan-300 transition-all duration-300 cursor-default shadow-lg hover:shadow-cyan-500/10 text-sm font-medium">
+                  {item}
+                </li>
+              ))
+            }
+          </ul>
+        </article>
+
+        <article
+          class="bg-slate-800/30 rounded-2xl p-8 backdrop-blur-sm border border-slate-700/50 animate-fade-in-up"
+          style="animation-delay: 0.5s"
+        >
+          <h2
+            class="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mb-6 flex items-center gap-3"
+          >
+            <svg
+              class="w-6 h-6 text-cyan-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+              ></path>
+            </svg>
+            Características
+          </h2>
+          <ul class="space-y-3">
             {
               data.characteristics.map((item) => (
-                <li class="flex items-center gap-3 text-slate-300">
+                <li class="flex items-start gap-3 text-slate-300">
                   <svg
-                    class="w-5 h-5 text-cyan-400 flex-shrink-0"
+                    class="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -168,95 +359,391 @@ export async function getStaticPaths() {
         </article>
 
         <article
-          class="bg-slate-800/30 rounded-2xl p-8 backdrop-blur-sm border border-slate-700/50"
+          class="bg-slate-800/30 rounded-2xl p-8 backdrop-blur-sm border border-slate-700/50 animate-fade-in-up"
+          style="animation-delay: 0.6s"
         >
           <h2
-            class="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mb-6"
+            class="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mb-6 flex items-center gap-3"
           >
-            Technologies
+            <svg
+              class="w-6 h-6 text-cyan-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+              ></path>
+            </svg>
+            Lo que aprendí
           </h2>
-          <ul class="flex flex-wrap gap-3">
+          <ul class="space-y-3">
             {
-              data.tecnologies.map((item) => (
-                <li class="px-4 py-2 bg-slate-700/50 text-slate-200 rounded-lg border border-slate-600 hover:border-cyan-400 hover:text-cyan-300 transition-all duration-300 cursor-default shadow-lg hover:shadow-cyan-500/10">
-                  {item}
+              data.learning.map((item) => (
+                <li class="flex items-start gap-3 text-slate-300">
+                  <svg
+                    class="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M13 10V3L4 14h7v7l9-11h-7z"
+                    />
+                  </svg>
+                  <span>{item}</span>
                 </li>
               ))
             }
           </ul>
         </article>
-
-        <article
-          class="bg-slate-800/30 rounded-2xl p-8 backdrop-blur-sm border border-slate-700/50"
-        >
-          <h2
-            class="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mb-6"
-          >
-            Aprendizajes
-          </h2>
-          <ul class="grid gap-3 pl-4">
-            {data.learning.map((item) => (
-              <li class="flex items-center gap-3 text-slate-300">
-                <svg
-                  class="w-5 h-5 text-cyan-400 flex-shrink-0"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 12l2 2 4-4"
-                  />
-                </svg>
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
-        </article>
       </div>
     </article>
   </section>
+
+  <div id="lightbox" class="lightbox">
+    <button id="lightbox-close" class="lightbox-close" aria-label="Cerrar">
+      <svg
+        class="w-8 h-8"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+    <button
+      id="lightbox-prev"
+      class="lightbox-nav lightbox-prev"
+      aria-label="Anterior"
+    >
+      <svg
+        class="w-8 h-8"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M15 19l-7-7 7-7"></path>
+      </svg>
+    </button>
+    <button
+      id="lightbox-next"
+      class="lightbox-nav lightbox-next"
+      aria-label="Siguiente"
+    >
+      <svg
+        class="w-8 h-8"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M9 5l7 7-7 7"></path>
+      </svg>
+    </button>
+    <img id="lightbox-img" src="" alt="Vista ampliada" class="lightbox-img" />
+    <div id="lightbox-counter" class="lightbox-counter"></div>
+  </div>
+
   <Footer />
 </Layout>
 
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById(
+      "lightbox-img"
+    ) as HTMLImageElement;
+    const lightboxClose = document.getElementById("lightbox-close");
+    const lightboxPrev = document.getElementById("lightbox-prev");
+    const lightboxNext = document.getElementById("lightbox-next");
+    const lightboxCounter = document.getElementById("lightbox-counter");
+    const projectImages = document.querySelectorAll(".project-image");
+    const galleryItems = document.querySelectorAll(".gallery-item");
+
+    let currentIndex = 0;
+    const images: string[] = [];
+
+    // Detectar aspect ratio de cada imagen y aplicar clases
+    function classifyImage(img: HTMLImageElement, container: Element) {
+      const aspectRatio = img.naturalWidth / img.naturalHeight;
+
+      // Limpiar clases anteriores
+      container.classList.remove(
+        "is-mobile",
+        "is-desktop",
+        "is-square",
+        "is-wide"
+      );
+
+      if (aspectRatio < 0.8) {
+        // Imagen vertical (móvil) - aspect ratio < 0.8
+        container.classList.add("is-mobile");
+      } else if (aspectRatio > 1.5) {
+        // Imagen muy horizontal (escritorio ancho)
+        container.classList.add("is-desktop", "is-wide");
+      } else if (aspectRatio >= 0.8 && aspectRatio <= 1.2) {
+        // Imagen cuadrada o casi cuadrada
+        container.classList.add("is-square");
+      } else {
+        // Imagen horizontal estándar (escritorio)
+        container.classList.add("is-desktop");
+      }
+
+      container.classList.add("loaded");
+    }
+
+    projectImages.forEach((img, index) => {
+      const imgElement = img as HTMLImageElement;
+      const container = galleryItems[index];
+      images.push(imgElement.src);
+
+      // Si la imagen ya está cargada
+      if (imgElement.complete && imgElement.naturalHeight !== 0) {
+        classifyImage(imgElement, container);
+      } else {
+        // Esperar a que cargue
+        imgElement.addEventListener("load", () => {
+          classifyImage(imgElement, container);
+        });
+      }
+
+      imgElement.addEventListener("click", () => {
+        currentIndex = index;
+        openLightbox();
+      });
+    });
+
+    function openLightbox() {
+      lightboxImg.src = images[currentIndex];
+      lightboxCounter!.textContent = `${currentIndex + 1} / ${images.length}`;
+      lightbox?.classList.add("active");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeLightbox() {
+      lightbox?.classList.remove("active");
+      document.body.style.overflow = "";
+    }
+
+    function showPrev() {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      lightboxImg.src = images[currentIndex];
+      lightboxCounter!.textContent = `${currentIndex + 1} / ${images.length}`;
+    }
+
+    function showNext() {
+      currentIndex = (currentIndex + 1) % images.length;
+      lightboxImg.src = images[currentIndex];
+      lightboxCounter!.textContent = `${currentIndex + 1} / ${images.length}`;
+    }
+
+    lightboxClose?.addEventListener("click", closeLightbox);
+    lightboxPrev?.addEventListener("click", showPrev);
+    lightboxNext?.addEventListener("click", showNext);
+
+    lightbox?.addEventListener("click", (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (!lightbox?.classList.contains("active")) return;
+      if (e.key === "Escape") closeLightbox();
+      if (e.key === "ArrowLeft") showPrev();
+      if (e.key === "ArrowRight") showNext();
+    });
+  });
+</script>
+
 <style>
-  @font-face {
-    font-family: "verdana";
-    src: url(../../Fonts/verdana.ttf);
+  /* Animaciones de entrada */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
 
-  @font-face {
-    font-family: "verdana_bold";
-    src: url(../../Fonts/verdana-bold.ttf);
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
-  .fontTextDescription {
-    font-family: "verdana";
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
   }
 
-  .fontTextTitle {
-    font-family: "verdana_bold";
-  }
-
-  .efectHover:hover {
-    transition: all 0.3s;
-    box-shadow: 1px 1px 15px 2px #ccd3dc;
-    color: #1ac0ec;
-    font-weight: bold;
-  }
-
-  .image-container {
-    background-color: #f0f0f0; /* Color de fondo mientras se carga */
-  }
-
-  .fade-in {
+  .animate-fade-in-up {
     opacity: 0;
-    transition: opacity 0.5s ease-in-out;
+    animation: fadeInUp 0.6s ease-out forwards;
   }
 
-  .fade-in.loaded {
+  .back-link {
+    animation: fadeIn 0.4s ease-out forwards;
+  }
+
+  /* Lightbox Styles */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.95);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.3s ease,
+      visibility 0.3s ease;
+  }
+
+  .lightbox.active {
     opacity: 1;
+    visibility: visible;
+  }
+
+  .lightbox-img {
+    max-width: 90vw;
+    max-height: 85vh;
+    object-fit: contain;
+    border-radius: 0.75rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+  }
+
+  .lightbox.active .lightbox-img {
+    transform: scale(1);
+  }
+
+  .lightbox-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 50%;
+    padding: 0.75rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .lightbox-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(90deg);
+  }
+
+  .lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 50%;
+    padding: 0.75rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .lightbox-nav:hover {
+    background: rgba(34, 211, 238, 0.3);
+  }
+
+  .lightbox-prev {
+    left: 1.5rem;
+  }
+
+  .lightbox-next {
+    right: 1.5rem;
+  }
+
+  .lightbox-counter {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.875rem;
+  }
+
+  /* Galería adaptativa */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-auto-rows: minmax(150px, auto);
+    grid-auto-flow: dense;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .gallery-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .gallery-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .gallery-item {
+    min-height: 150px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .gallery-item.loaded {
+    opacity: 1;
+  }
+
+  /* Imagen móvil (vertical/portrait) - ocupa 1 columna, altura limitada */
+  .gallery-item.is-mobile {
+    grid-row: span 2;
+    max-height: 400px;
+  }
+
+  /* Imagen de escritorio (horizontal/landscape) - puede expandirse */
+  .gallery-item.is-desktop {
+    grid-column: span 1;
+  }
+
+  @media (min-width: 640px) {
+    .gallery-item.is-desktop.is-wide {
+      grid-column: span 2;
+    }
+  }
+
+  /* Imagen cuadrada - tamaño estándar */
+  .gallery-item.is-square {
+    aspect-ratio: 1;
   }
 </style>
