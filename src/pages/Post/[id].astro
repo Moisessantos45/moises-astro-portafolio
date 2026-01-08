@@ -466,8 +466,9 @@ export async function getStaticPaths() {
 </Layout>
 
 <script>
-  document.addEventListener("astro:page-load", () => {
+  function initLightbox() {
     const lightbox = document.getElementById("lightbox");
+    if (!lightbox) return; // Salir si no existe el lightbox en esta página
     const lightboxImg = document.getElementById(
       "lightbox-img"
     ) as HTMLImageElement;
@@ -569,7 +570,11 @@ export async function getStaticPaths() {
       if (e.key === "ArrowLeft") showPrev();
       if (e.key === "ArrowRight") showNext();
     });
-  });
+  }
+
+  initLightbox();
+
+  document.addEventListener("astro:page-load", initLightbox);
 </script>
 
 <style>
