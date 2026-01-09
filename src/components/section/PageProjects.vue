@@ -5,26 +5,20 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { supabase } from "@/api/config";
+import { useProjectsStore } from "@/store/projectsStore";
 import type { TypeProyects } from "@/types/data";
 import { useIntersectionObserver } from "@vueuse/core";
-import { fromToJsonMap } from "@/service/data.service";
 import CardItem from "../CardItem.vue";
 import Loading from "../Ui/Loading.vue";
+
+const { getActiveProjects } = useProjectsStore();
 
 const projects = ref<TypeProyects[]>([]);
 const cardRefs = ref([]);
 
-const getProjects = async () => {
+const loadProjects = async () => {
   try {
-    const { data, error } = await supabase.from("Proyectos").select("*");
-    if (error) throw error;
-    const dataProjects = data.map(fromToJsonMap).sort((a, b) => {
-      const dateA = new Date(a.createdAt).getTime();
-      const dateB = new Date(b.createdAt).getTime();
-      return dateB - dateA;
-    });
-    projects.value = dataProjects.filter(item => item.status === "active");
+    projects.value = await getActiveProjects();
   } catch (error) {
     projects.value = [];
   }
@@ -43,7 +37,7 @@ const { stop } = useIntersectionObserver(cardRefs, observerCallback, {
 });
 
 onMounted(() => {
-  getProjects();
+  loadProjects();
   cardRefs.value.forEach((card) => {
     if (card) {
       stop();

@@ -10,21 +10,14 @@
       </p>
     </div>
     <article class="grid grid-cols-1 gap-8 md:grid-cols-3">
-      <CardItem
-        class="card__project"
-        v-for="proyect in projects"
-        :key="proyect.id"
-        :proyect="proyect"
-        ref="cardRefs"
-      />
+      <CardItem class="card__project" v-for="proyect in projects" :key="proyect.id" :proyect="proyect" ref="cardRefs" />
     </article>
     <div class="text-center mt-12">
-      <a
-        href="/ProyectsAll"
-        class="inline-flex items-center gap-2 px-6 py-3 text-sm font-medium text-white bg-gradient-to-r from-sky-500 to-cyan-400 rounded-lg hover:from-sky-600 hover:to-cyan-500 transition-all duration-300 shadow-lg shadow-cyan-500/20"
-      >
+      <a href="/ProyectsAll"
+        class="inline-flex items-center gap-2 px-6 py-3 text-sm font-medium text-white bg-gradient-to-r from-sky-500 to-cyan-400 rounded-lg hover:from-sky-600 hover:to-cyan-500 transition-all duration-300 shadow-lg shadow-cyan-500/20">
         Ver todos los proyectos
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="5" y1="12" x2="19" y2="12"></line>
           <polyline points="12 5 19 12 12 19"></polyline>
         </svg>
@@ -35,29 +28,20 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { supabase } from "@/api/config";
+import { useProjectsStore } from "@/store/projectsStore";
 import type { TypeProyects } from "@/types/data";
 import { useIntersectionObserver } from "@vueuse/core";
-import { fromToJsonMap } from "@/service/data.service";
 import CardItem from "../CardItem.vue";
 import Loading from "../Ui/Loading.vue";
+
+const { getLatestProjects } = useProjectsStore();
 
 const projects = ref<TypeProyects[]>([]);
 const cardRefs = ref([]);
 
-const getProjects = async () => {
+const loadProjects = async () => {
   try {
-    const { data, error } = await supabase.from("Proyectos").select("*");
-    if (error) throw error;
-    const dataProjects = data
-      .map(fromToJsonMap)
-      .sort((a, b) => {
-        const dateA = new Date(a.createdAt).getTime();
-        const dateB = new Date(b.createdAt).getTime();
-        return dateB - dateA;
-      })
-      .slice(0, 3);
-    projects.value = dataProjects;
+    projects.value = await getLatestProjects(3);
   } catch (error) {
     projects.value = [];
   }
@@ -76,7 +60,7 @@ const { stop } = useIntersectionObserver(cardRefs, observerCallback, {
 });
 
 onMounted(() => {
-  getProjects();
+  loadProjects();
   cardRefs.value.forEach((card) => {
     if (card) {
       stop();
@@ -87,6 +71,7 @@ onMounted(() => {
 
 <style scoped>
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css");
+
 .card__project {
   opacity: 0;
   transition: 150ms;
