@@ -1,6 +1,6 @@
 import { defineConfig, envField } from "astro/config";
 import tailwind from "@astrojs/tailwind";
-import vercel from '@astrojs/vercel';
+import vercel from "@astrojs/vercel";
 
 import vue from "@astrojs/vue";
 
@@ -9,13 +9,21 @@ export default defineConfig({
   integrations: [tailwind(), vue()],
   output: "static",
   adapter: vercel(),
+  server: {
+    port: 3000,
+    host: true,
+    sourcemapIgnoreList: () => true,
+  },
+  css: {
+    devSourcemap: false,
+  },
   headers: {
-    '/*': [
+    "/*": [
       {
-        key: 'Cache-Control',
-        value: 'public, max-age=31536000'
-      }
-    ]
+        key: "Cache-Control",
+        value: "public, max-age=31536000",
+      },
+    ],
   },
   env: {
     schema: {
@@ -25,6 +33,13 @@ export default defineConfig({
         access: "public",
       }),
       URL_CV: envField.string({ context: "client", access: "public" }),
+    },
+  },
+  build: {
+    sourcemap: false,
+    minify: "esbuild",
+    rollupOptions: {
+      output: {},
     },
   },
 });
