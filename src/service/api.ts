@@ -1,8 +1,8 @@
-import type { TypeProyects } from "@/types/data";
+import type { TypeProject } from "@/types/data";
 import { fromToJsonMap } from "./data.service";
-import { supabase } from "@/api/config";
+import { useProjectsStore } from "@/store/projectStore";
 
-const initialState: TypeProyects = {
+const initialState: TypeProject = {
   id: "",
   title: "",
   typeProyect: "",
@@ -22,10 +22,9 @@ const initialState: TypeProyects = {
   counter_likes: 0,
 };
 
-const obtenerProyectos = async (): Promise<TypeProyects[]> => {
+const loadProjectData = async (): Promise<TypeProject[]> => {
   try {
-    const { data, error } = await supabase.from("Proyectos").select("*");
-    if (error) throw error;
+    const data = await useProjectsStore().fetchProjects();
     const dataProjects = data.map(fromToJsonMap);
     return dataProjects;
   } catch (error) {
@@ -33,4 +32,4 @@ const obtenerProyectos = async (): Promise<TypeProyects[]> => {
   }
 };
 
-export { obtenerProyectos, initialState };
+export { loadProjectData, initialState };

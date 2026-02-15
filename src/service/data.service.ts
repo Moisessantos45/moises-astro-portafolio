@@ -1,11 +1,11 @@
-import type { TypeProyects, TypeLinks } from "@/types/data";
+import type { TypeProject, TypeLinks } from "@/types/data";
 import type { Demo } from "@/types/demo";
 
 const serializeToJson = <T>(data: any): T => {
   return JSON.parse(data) || [];
 };
 
-const fromToJsonMap = (data: { [key: string]: any }): TypeProyects => {
+const fromToJsonMap = (data: { [key: string]: any }): TypeProject => {
   return {
     id: data["id"],
     title: data["title"] || "",

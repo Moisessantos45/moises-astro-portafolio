@@ -1,16 +1,17 @@
 ---
-import { supabase } from "@/api/config";
 import { fromToJsonMapDemo } from "@/service/data.service";
 import type { Demo } from "@/types/demo";
 import Layout from "../layouts/Layout.astro";
 import Footer from "@/components/Footer.astro";
+import { api } from "@/api/config";
 
 const getDemoList = async (): Promise<Demo[]> => {
   try {
-    const { data, error } = await supabase.from("Url_video").select("*");
+    const { data } = await api.get("/video");
 
-    if (error) throw error;
-    const dataProjects = data.map((map) => fromToJsonMapDemo(map));
+    const newData = data["data"] ?? [];
+
+    const dataProjects = newData.map((map: Demo) => fromToJsonMapDemo(map));
     return dataProjects;
   } catch (error) {
     return [];

@@ -7,11 +7,12 @@ import vue from "@astrojs/vue";
 // https://astro.build/config
 export default defineConfig({
   integrations: [tailwind(), vue()],
-  output: "static",
+  output: "server",
   adapter: vercel(),
   server: {
     port: 3000,
     host: true,
+    allowedHosts: ["web.mmabitec.me", "173.212.222.80", "www.web.mmabitec.me"],
     sourcemapIgnoreList: () => true,
   },
   css: {
@@ -27,11 +28,12 @@ export default defineConfig({
   },
   env: {
     schema: {
-      SUPABASE_URL: envField.string({ context: "client", access: "public" }),
-      SUPABASE_ANON_KEY: envField.string({
-        context: "client",
-        access: "public",
-      }),
+      API_URL: envField.string({ context: "client", access: "public" }),
+      // SUPABASE_URL: envField.string({ context: "client", access: "public" }),
+      // SUPABASE_ANON_KEY: envField.string({
+      //   context: "client",
+      //   access: "public",
+      // }),
       URL_CV: envField.string({ context: "client", access: "public" }),
     },
   },
