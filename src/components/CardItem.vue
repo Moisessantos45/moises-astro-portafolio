@@ -74,12 +74,12 @@
 
 <script setup lang="ts">
 import { reactive, ref } from "vue";
-import { technologiesColors, type TypeProyects } from "@/types/data";
+import { technologiesColors, type TypeProject } from "@/types/data";
 import Link from "./Ui/Link.vue";
 import { supabase } from "@/api/config";
 
 const props = defineProps<{
-  proyect: TypeProyects;
+  proyect: TypeProject;
 }>();
 
 const localProyect = reactive({ ...props.proyect });
@@ -91,7 +91,7 @@ const likesStorage: string[] = JSON.parse(
 
 isLiked.value = likesStorage.includes(props.proyect.id);
 
-const saveLike = async (proyect: TypeProyects) => {
+const saveLike = async (proyect: TypeProject) => {
   try {
     console.log(proyect);
     const { error } = await supabase

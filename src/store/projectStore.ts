@@ -1,9 +1,9 @@
 import { ref } from "vue";
 import { supabase } from "@/api/config";
-import type { TypeProyects } from "@/types/data";
+import type { TypeProject } from "@/types/data";
 import { fromToJsonMap } from "@/service/data.service";
 
-const projectsCache = ref<TypeProyects[]>([]);
+const projectsCache = ref<TypeProject[]>([]);
 const isLoading = ref(false);
 const isLoaded = ref(false);
 const error = ref<Error | null>(null);
@@ -11,7 +11,7 @@ const error = ref<Error | null>(null);
 export function useProjectsStore() {
   const fetchProjects = async (
     forceRefresh = false
-  ): Promise<TypeProyects[]> => {
+  ): Promise<TypeProject[]> => {
     if (isLoaded.value && projectsCache.value.length > 0 && !forceRefresh) {
       return projectsCache.value;
     }
@@ -55,21 +55,21 @@ export function useProjectsStore() {
     }
   };
 
-  const getLatestProjects = async (count: number): Promise<TypeProyects[]> => {
+  const getLatestProjects = async (count: number): Promise<TypeProject[]> => {
     const projects = await fetchProjects();
     return projects.slice(0, count);
   };
 
-  const getActiveProjects = async (): Promise<TypeProyects[]> => {
+  const getActiveProjects = async (): Promise<TypeProject[]> => {
     const projects = await fetchProjects();
     return projects.filter((p) => p.status === "active");
   };
 
-  const getAllProjects = async (): Promise<TypeProyects[]> => {
+  const getAllProjects = async (): Promise<TypeProject[]> => {
     return fetchProjects();
   };
 
-  const refresh = async (): Promise<TypeProyects[]> => {
+  const refresh = async (): Promise<TypeProject[]> => {
     return fetchProjects(true);
   };
   const clearCache = () => {

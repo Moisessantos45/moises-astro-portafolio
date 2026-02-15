@@ -53,14 +53,14 @@ const technologiesColors = {
   provider: "bg-blue-500 text-blue-900",
 };
 
-type tecnology = keyof typeof technologiesColors;
+type technology = keyof typeof technologiesColors;
 
-interface Proyect {
+interface Project {
   id: string;
   name: string;
   description: string;
   image: string;
-  tecnologias: tecnology[];
+  tecnologias: technology[];
 }
 
 interface TypeLinks {
@@ -68,7 +68,7 @@ interface TypeLinks {
   backend: string;
 }
 
-interface TypeProyects {
+interface TypeProject {
   id: string;
   title: string;
   typeProyect: string;
@@ -86,4 +86,4 @@ interface TypeProyects {
 }
 
 export { technologiesColors };
-export type { Proyect, tecnology, TypeProyects, TypeLinks };
+export type { Project, technology, TypeProject, TypeLinks };

@@ -27,7 +27,7 @@
             <span v-for="(item, index) in proyect.tecnologies.slice(0, 3)" :key="index">
               <li :class="[
                 'rounded-full px-3 py-1 text-xs font-medium text-white',
-                technologiesColors[item.toLowerCase() as tecnology],
+                technologiesColors[item.toLowerCase() as technology],
               ]">
                 {{ item }}
               </li>
@@ -69,14 +69,14 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { useProjectsStore } from "@/store/projectsStore";
-import type { TypeProyects } from "@/types/data";
-import { technologiesColors, type tecnology } from "@/types/data";
+import { useProjectsStore } from "@/store/projectStore";
+import type { TypeProject } from "@/types/data";
+import { technologiesColors, type technology } from "@/types/data";
 import Loading from "@/components/Ui/Loading.vue";
 
-const { getLatestProjects, isLoading } = useProjectsStore();
+const { getLatestProjects } = useProjectsStore();
 
-const projects = ref<TypeProyects[]>([]);
+const projects = ref<TypeProject[]>([]);
 const loading = ref<boolean>(true);
 
 const loadProjects = async () => {

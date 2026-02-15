@@ -5,15 +5,15 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { useProjectsStore } from "@/store/projectsStore";
-import type { TypeProyects } from "@/types/data";
+import { useProjectsStore } from "@/store/projectStore";
+import type { TypeProject } from "@/types/data";
 import { useIntersectionObserver } from "@vueuse/core";
 import CardItem from "../CardItem.vue";
 import Loading from "../Ui/Loading.vue";
 
 const { getActiveProjects } = useProjectsStore();
 
-const projects = ref<TypeProyects[]>([]);
+const projects = ref<TypeProject[]>([]);
 const cardRefs = ref([]);
 
 const loadProjects = async () => {
