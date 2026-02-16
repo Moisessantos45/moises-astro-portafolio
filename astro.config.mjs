@@ -12,7 +12,7 @@ export default defineConfig({
   server: {
     port: 3000,
     host: true,
-    allowedHosts: ["web.mmabitec.me", "173.212.222.80", "www.web.mmabitec.me"],
+    allowedHosts: ["portafolio.mmabitec.me", "173.212.222.80", "www.portafolio.mmabitec.me"],
     sourcemapIgnoreList: () => true,
   },
   css: {
