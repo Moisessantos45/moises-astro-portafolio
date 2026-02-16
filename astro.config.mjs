@@ -1,6 +1,6 @@
 import { defineConfig, envField } from "astro/config";
 import tailwind from "@astrojs/tailwind";
-import vercel from "@astrojs/vercel";
+import node from "@astrojs/node";
 
 import vue from "@astrojs/vue";
 
@@ -8,7 +8,9 @@ import vue from "@astrojs/vue";
 export default defineConfig({
   integrations: [tailwind(), vue()],
   output: "server",
-  adapter: vercel(),
+  adapter: node({
+    mode: "standalone",
+  }),
   server: {
     port: 3000,
     host: true,
