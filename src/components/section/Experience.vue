@@ -142,7 +142,7 @@ const experiences = ref<Experience[]>([
     id: "1",
     title: "Web Developer",
     company: "Toman jido-ka ikigai Company",
-    period: "May 2024 - August 2024",
+    period: "May 2024 - August 2025",
     status: "completed",
     description:
       "Development of modern web applications using technologies such as React, Vue, Node.js, and databases.",
