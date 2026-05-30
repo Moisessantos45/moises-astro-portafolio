@@ -1,4 +1,12 @@
-import { createClient } from "@supabase/supabase-js";
-import { SUPABASE_ANON_KEY, SUPABASE_URL } from "astro:env/client";
+import { API_URL } from "astro:env/client";
+import axios from "axios";
 
-export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const api = axios.create({
+  baseURL: API_URL,
+  withCredentials: true,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+export default api;

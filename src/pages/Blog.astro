@@ -1,0 +1,44 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Footer from "@/components/Footer.astro";
+import PostList from "@/components/section/PostList.vue";
+import PageNavigator from "@/components/PageNavigator.vue";
+
+const page = Number(Astro.url.searchParams.get("page") || "1");
+---
+
+<Layout
+  title="Blog | Moises Santos"
+  description="Artículos y notas sobre desarrollo web, tecnología y sistemas inteligentes."
+>
+  <section class="section-max pt-20 pb-12 scroll-reveal">
+    <p class="label-tag mb-4">Artículos & notas</p>
+
+    <div
+      class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-14"
+    >
+      <div>
+        <h1
+          class="font-display text-5xl sm:text-6xl text-(--color-ink) leading-[1.05] mb-5"
+        >
+          Blog
+        </h1>
+        <p
+          class="font-body text-base text-(--color-ink-soft) leading-relaxed max-w-lg"
+        >
+          Reflexiones, tutoriales y notas sobre desarrollo web, tecnologías
+          emergentes y sistemas inteligentes.
+        </p>
+      </div>
+    </div>
+
+    <hr class="divider mb-14" />
+  </section>
+
+  <section class="section-max pb-24 scroll-reveal">
+    <PostList client:visible page={page} />
+    <PageNavigator client:visible baseUrl="/Blog" />
+  </section>
+
+  <Footer />
+</Layout>

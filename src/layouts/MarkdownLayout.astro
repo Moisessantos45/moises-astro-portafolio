@@ -1,0 +1,62 @@
+---
+import "../styles/global.css";
+const { frontmatter } = Astro.props;
+---
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>{frontmatter.title}</title>
+    <meta name="description" content={frontmatter.description} />
+  </head>
+  <body>
+    <main class="markdown-body">
+      <slot />
+    </main>
+  </body>
+</html>
+
+<style is:global>
+  .markdown-body {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    line-height: 1.8;
+  }
+
+  .markdown-body h1 {
+    font-size: 2.4rem;
+    margin-bottom: 1rem;
+  }
+  .markdown-body h2 {
+    font-size: 1.8rem;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+  }
+  .markdown-body p {
+    margin-bottom: 1rem;
+  }
+  .markdown-body a {
+    color: #2563eb;
+  }
+  .markdown-body table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+  }
+  .markdown-body th,
+  .markdown-body td {
+    border: 1px solid #ccc;
+    padding: 0.75rem;
+  }
+  .markdown-body blockquote {
+    border-left: 4px solid #999;
+    padding-left: 1rem;
+    color: #666;
+  }
+  .markdown-body pre {
+    padding: 1rem;
+    border-radius: 12px;
+    overflow-x: auto;
+  }
+</style>

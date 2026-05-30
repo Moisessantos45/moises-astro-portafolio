@@ -1,36 +1,14 @@
-import type { TypeProyects } from "@/types/data";
-import { fromToJsonMap } from "./data.service";
-import { supabase } from "@/api/config";
+import { mapperProject } from "@/helpers/mappers/project";
+import { useProjectsStore } from "@/store/projectStore";
+import type { Project } from "@/types/project";
 
-const initialState: TypeProyects = {
-  id: "",
-  title: "",
-  typeProyect: "",
-  description: "",
-  tecnologies: [],
-  characteristics: [],
-  learning: [],
-  image: "",
-  imagenesProyect: [],
-  link: "",
-  createdAt: "",
-  links: {
-    frontend: "",
-    backend: "",
-  },
-  status: "",
-  counter_likes: 0,
-};
-
-const obtenerProyectos = async (): Promise<TypeProyects[]> => {
+const loadProjectData = async (): Promise<Project[]> => {
   try {
-    const { data, error } = await supabase.from("Proyectos").select("*");
-    if (error) throw error;
-    const dataProjects = data.map(fromToJsonMap);
-    return dataProjects;
+    const data = await useProjectsStore().getAllProjects();
+    return data;
   } catch (error) {
     return [];
   }
 };
 
-export { obtenerProyectos, initialState };
+export { loadProjectData };

@@ -1,112 +1,38 @@
 {
   "skills": [
-    {
-      "skill": "HTML5",
-      "icon": "/html.svg"
-    },
-    {
-      "skill": "CSS3",
-      "icon": "/css.svg"
-    },
-    {
-      "skill": "JavaScript",
-      "icon": "/javascript.svg"
-    },
-    {
-      "skill": "TypeScript",
-      "icon": "./public/typescript.svg"
-    },
-    {
-      "skill": "React",
-      "icon": "/react.svg"
-    },
-    {
-      "skill": "Node.js",
-      "icon": "/node.svg"
-    },
-    {
-      "skill": "Astro",
-      "icon": "/astro.svg"
-    },
-    {
-      "skill":"Flutter",
-      "icon": "/brand-flutter.svg"
-    },
-    {
-      "skill": "Tailwind CSS",
-      "icon": "/tailwind.svg"
-    },
-    {
-      "skill": "React-Query",
-      "icon": "/react-query.png"
-    },
-    {
-      "skill": "Dart",
-      "icon": "/Dart.png"
-    },
-    {
-      "skill": "Python",
-      "icon": "/brand-python.svg"
-    },
-    {
-      "skill": "Express",
-      "icon": "./public/express.svg"
-    },
-    {
-      "skill": "FastAPI",
-      "icon": "./public/fastapi.png"
-    },
-    {
-      "skill": "MongoDB",
-      "icon": "/mongodb.svg"
-    },
-    {
-      "skill": "MySQL",
-      "icon": "/mysql.svg"
-    },
-    {
-      "skill": "Sokect IO",
-      "icon": "/socket.svg"
-    },
-    {
-      "skill": "Zustand",
-      "icon": "/zustand.svg"
-    },
-    {
-      "skill": "API Management and Creation",
-      "icon": "/api.svg"
-    },
-    {
-      "skill": "ORM Handling",
-      "icon": "/orm.svg"
-    },
-    {
-      "skill": "GitHub",
-      "icon": "/github.svg"
-    },
-    {
-      "skill": "Npm (Node Package Manager)",
-      "icon": "/npm.svg"
-    },
-    {
-      "skill": "Adobe Photoshop",
-      "icon": "/Photoshop.png"
-    },
-    {
-      "skill": "Adobe Premiere Pro",
-      "icon": "/Premiere.png"
-    },
-    {
-      "skill": "Adobe After Effects",
-      "icon": "/AfterEffects.png"
-    },
-    {
-      "skill": "Video and Image Editing",
-      "icon": "/videoedit.svg"
-    },
-    {
-      "skill": "Microsoft Office Suite",
-      "icon": "/office.svg"
-    }
+    { "skill": "HTML5", "icon": "/html.svg", "category": "Frontend" },
+    { "skill": "CSS3", "icon": "/css.svg", "category": "Frontend" },
+    { "skill": "JavaScript", "icon": "/javascript.svg", "category": "Frontend" },
+    { "skill": "TypeScript", "icon": "/typescript.svg", "category": "Frontend" },
+    { "skill": "React", "icon": "/react.svg", "category": "Frontend" },
+    { "skill": "Astro", "icon": "/astro.svg", "category": "Frontend" },
+    { "skill": "Tailwind CSS", "icon": "/tailwind.svg", "category": "Frontend" },
+    { "skill": "React-Query", "icon": "/react-query.png", "category": "Frontend" },
+    { "skill": "Zustand", "icon": "/zustand.svg", "category": "Frontend" },
+    { "skill": "Node.js", "icon": "/node.svg", "category": "Backend" },
+    { "skill": "Python", "icon": "/brand-python.svg", "category": "Backend" },
+    { "skill": "Express", "icon": "/express.svg", "category": "Backend" },
+    { "skill": "FastAPI", "icon": "/fastapi.png", "category": "Backend" },
+    { "skill": "Golang", "icon": "/golang.png", "category": "Backend" },
+    { "skill": "Gin", "icon": "/gin.png", "category": "Backend" },
+    { "skill": ".NET", "icon": "/net.png", "category": "Backend" },
+    { "skill": "Socket.IO", "icon": "/socket.svg", "category": "Backend" },
+    { "skill": "API Management", "icon": "/api.svg", "category": "Backend" },
+    { "skill": "MongoDB", "icon": "/mongodb.svg", "category": "Databases" },
+    { "skill": "MySQL", "icon": "/mysql.svg", "category": "Databases" },
+    { "skill": "PostgreSQL", "icon": "/psql.png", "category": "Databases" },
+    { "skill": "ORM Handling", "icon": "/orm.svg", "category": "Databases" },
+    { "skill": "Gorm", "icon": "/gorm.png", "category": "Databases" },
+    { "skill": "Flutter", "icon": "/brand-flutter.svg", "category": "Mobile & Desktop" },
+    { "skill": "Dart", "icon": "/Dart.png", "category": "Mobile & Desktop" },
+    { "skill": "Avalonia", "icon": "/avalonia.svg", "category": "Mobile & Desktop" },
+    { "skill": "GitHub", "icon": "/github.svg", "category": "Tools" },
+    { "skill": "Npm", "icon": "/npm.svg", "category": "Tools" },
+    { "skill": "Bun.js", "icon": "/bun.png", "category": "Tools" },
+    { "skill": "Adobe Photoshop", "icon": "/Photoshop.png", "category": "Tools" },
+    { "skill": "Adobe Premiere", "icon": "/Premiere.png", "category": "Tools" },
+    { "skill": "Adobe After Effects", "icon": "/AfterEffects.png", "category": "Tools" },
+    { "skill": "Video Editing", "icon": "/videoedit.svg", "category": "Tools" },
+    { "skill": "Microsoft Office", "icon": "/office.svg", "category": "Tools" }
   ]
 }

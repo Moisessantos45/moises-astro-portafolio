@@ -1,127 +1,77 @@
 <template>
-  <figure
-    class="relative overflow-hidden rounded-lg bg-slate-800 shadow-lg transform transition-all duration-300 hover:shadow-2xl hover:scale-105"
-  >
-    <span
-      class="absolute top-2 left-2 bg-cyan-600 text-white text-xs font-bold px-2 py-1 rounded-full z-10"
-    >
-      {{ localProyect.typeProyect }}
-    </span>
-    <button
-      id="likeButton"
-      type="button"
-      class="absolute top-2 right-2 bg-gray-600 bg-opacity-70 hover:bg-opacity-90 text-white rounded-full p-2 transition-all duration-300 z-10 flex items-center space-x-1"
-      aria-label="Me gusta"
-      @click="saveLike(proyect)"
-    >
-      <i
-        :class="[isLiked && 'fa-solid', 'fa-regular fa-thumbs-up icon-like']"
-      ></i>
-      <span class="text-xs font-bold couter_like">{{
-        localProyect.counter_likes
-      }}</span>
-    </button>
+  <article class="portfolio-card flex flex-col group h-full">
+    <div :class="[
+      'w-full aspect-16/10 overflow-hidden flex items-center justify-center relative mockup-bg',
+      projectData.typeProject === 'mobile-app' ? 'bg-[#f4ece8]' : 'bg-[#e8edf4]'
+    ]">
+      <figure
+        class="w-[90%] h-[85%] overflow-hidden rounded-xl shadow-[0_8px_24px_rgba(24,24,27,0.08)] bg-white transition-transform duration-500 group-hover:scale-[1.02]">
+        <img :src="projectData.banner" :alt="projectData.title" class="w-full h-full object-cover" loading="lazy" />
+      </figure>
+    </div>
 
-    <img
-      :src="localProyect.image"
-      alt="Hero"
-      :class="[
-        proyect.typeProyect === 'mobile-app'
-          ? 'object-cover object-top'
-          : 'object-fill',
-        'w-full h-36 transition-transform transform hover:scale-110',
-      ]"
-      loading="lazy"
-    />
-    <div class="p-4 flex flex-col h-[calc(100%-9rem)]">
-      <h1
-        class="text-xl font-bold mb-2 text-white hover:text-cyan-400 transition-colors"
-      >
-        {{ localProyect.title }}
-      </h1>
-      <div class="flex-grow mb-4">
-        <p class="text-sm text-slate-200 line-clamp-3">
-          {{ localProyect.description }}
-        </p>
+    <div class="p-5 flex flex-col grow">
+      <div class="flex items-center gap-2 mb-3">
+        <span class="tech-tag">
+          {{ projectData.typeProject === 'mobile-app' ? 'Mobile App' : 'Web & System' }}
+        </span>
       </div>
-      <div class="space-y-4">
-        <div class="technologies-container min-h-[80px]">
-          <ul class="flex flex-wrap gap-1.5">
-            <li v-for="(item, index) in proyect.tecnologies" :key="index"
-              :class="[
-                'rounded-full px-2 py-0.5 text-[11px] font-medium text-white transition-colors',
-                technologiesColors[item.toLowerCase() as keyof typeof technologiesColors],
-              ]"
-            >
-              {{ item }}
-            </li>
-          </ul>
-        </div>
-        <div class="flex flex-wrap gap-2 justify-center pt-2 border-t border-slate-700">
-          <Link :link="localProyect.links.frontend" text="Frontend" icon="code" />
-          <Link :link="localProyect.links.backend" text="Backend" icon="code" />
-          <Link
-            :link="`/Post/${localProyect.id}`"
-            text="Details"
-            icon="external-link"
-          />
-          <Link :link="localProyect.link" text="Website" icon="globe" />
-        </div>
+
+      <a :href="`/project/${projectData.slug}`" class="block group/title mb-2">
+        <h3
+          class="font-display text-xl text-(--color-ink) leading-snug group-hover/title:opacity-60 transition-opacity duration-200">
+          {{ projectData.title }}
+        </h3>
+      </a>
+
+      <p class="font-body text-sm text-(--color-ink-soft) leading-relaxed line-clamp-3 mb-4 grow">
+        {{ projectData.description }}
+      </p>
+
+      <div class="flex flex-wrap gap-1.5 mb-4">
+        <span v-for="(tech, index) in project.technologies.slice(0, 3)" :key="index" class="tech-tag">
+          {{ tech }}
+        </span>
+        <span v-if="project.technologies.length > 3" class="tech-tag">
+          +{{ project.technologies.length - 3 }}
+        </span>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-1.5 pt-4 mt-auto border-t border-(--color-border)">
+        <a v-for="(link, idx) in projectData.linkFrontend" :key="'fe-' + idx" :href="link" target="_blank"
+          rel="noopener noreferrer" class="btn-ghost py-1.5 px-3 text-xs">
+          Código{{ projectData.linkFrontend.length > 1 ? ` ${idx + 1}` : '' }}
+        </a>
+
+        <a v-for="(link, idx) in projectData.linkBackend" :key="'be-' + idx" :href="link" target="_blank"
+          rel="noopener noreferrer" class="btn-ghost py-1.5 px-3 text-xs">
+          Backend{{ projectData.linkBackend.length > 1 ? ` ${idx + 1}` : '' }}
+        </a>
+
+        <a v-if="projectData.link && !projectData.link.includes('#')" :href="projectData.link" target="_blank"
+          rel="noopener noreferrer" class="btn-ghost py-1.5 px-3 text-xs">
+          Demo
+        </a>
+
+        <a :href="`/project/${projectData.slug}`" class="ml-auto btn-primary py-1.5 px-4 text-xs">
+          Ver más
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+            stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </a>
       </div>
     </div>
-  </figure>
+  </article>
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from "vue";
-import { technologiesColors, type TypeProject } from "@/types/data";
-import Link from "./Ui/Link.vue";
-import { supabase } from "@/api/config";
+import { reactive } from "vue";
+import type { Project } from "@/types/project";
 
 const props = defineProps<{
-  proyect: TypeProject;
+  project: Project;
 }>();
 
-const localProyect = reactive({ ...props.proyect });
-const isLiked = ref(false);
-
-const likesStorage: string[] = JSON.parse(
-  localStorage.getItem("likesProjects") ?? "[]"
-);
-
-isLiked.value = likesStorage.includes(props.proyect.id);
-
-const saveLike = async (proyect: TypeProject) => {
-  try {
-    console.log(proyect);
-    const { error } = await supabase
-      .from("Proyectos")
-      .update({ counter_likes: proyect.counter_likes + 1 })
-      .eq("id", proyect.id);
-    if (error) throw error;
-    likesStorage.push(proyect.id);
-    localStorage.setItem("likesProjects", JSON.stringify(likesStorage));
-    localProyect.counter_likes++;
-    isLiked.value = !isLiked.value;
-  } catch (error) {
-    return;
-  }
-};
+const projectData = reactive({ ...props.project });
 </script>
-
-<style scoped>
-@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css");
-.card__project {
-  opacity: 0;
-  transition: 150ms;
-}
-
-.show {
-  opacity: 1;
-}
-
-.technologies-container {
-  display: flex;
-  align-items: flex-start;
-}
-</style>

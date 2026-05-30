@@ -1,48 +1,86 @@
 ---
+import "../styles/global.css";
 import { ClientRouter } from "astro:transitions";
 import Header from "../components/Header.astro";
+
 interface Props {
   title: string;
+  description?: string;
 }
 
-const { title } = Astro.props;
+const {
+  title,
+  description = "Moises Santos - Full Stack Developer and Intelligent Systems Engineering Student. Discover my creative web projects, demos, and professional experience.",
+} = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="es" class="h-full">
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content="Astro description" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link
-      rel="preload"
-      href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@200..900&display=swap"
-      as="style"
-      onload="this.onload=null;this.rel='stylesheet'"
-    />
-    <noscript>
-      <link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@200..900&display=swap"
-      />
-    </noscript>
-    <meta name="generator" content={Astro.generator} />
+
     <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content="Moises Santos" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:image"
+      content="https://res.cloudinary.com/dtkskpitc/image/upload/f_webp,q_auto/v1723951107/cv-proyects/niwkkte9km7amzss4hwb"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://res.cloudinary.com" />
+
+    <meta name="generator" content={Astro.generator} />
     <ClientRouter />
-    <head>
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-      <link rel="preconnect" href="https://res.cloudinary.com" />
-    </head>
-  <body class="bg-slate-900">
-    <Header />
-    <main>
+  </head>
+  <body class="min-h-full flex flex-col">
+    <Header id="main-header" />
+    <main class="grow">
       <slot />
     </main>
-  </body><style is:global>
-    html {
-      font-family: "Inter", sans-serif;
-    }
-  </style>
+    <script is:inline>
+      function setupScrollReveal() {
+        if (
+          !CSS.supports(
+            "(animation-timeline: view()) and (animation-range: entry)",
+          )
+        ) {
+          const observer = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  entry.target.classList.add("reveal-active");
+                } else {
+                  entry.target.classList.remove("reveal-active");
+                }
+              });
+            },
+            {
+              threshold: 0.04,
+              rootMargin: "0px 0px -32px 0px",
+            },
+          );
+
+          document.querySelectorAll(".scroll-reveal").forEach((el) => {
+            observer.observe(el);
+          });
+        }
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", setupScrollReveal);
+      } else {
+        setupScrollReveal();
+      }
+
+      document.addEventListener("astro:after-swap", setupScrollReveal);
+    </script>
+  </body>
 </html>

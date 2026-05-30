@@ -1,0 +1,859 @@
+---
+import { useProjectsStore } from "@/store/projectStore";
+import type { ProjectDTO, Project } from "@/types/project";
+import Layout from "@/layouts/Layout.astro";
+import Footer from "@/components/Footer.astro";
+import { loadProjectData } from "@/service/api";
+     
+const { slug } = Astro.params;
+
+const getProjects = async (): Promise<ProjectDTO> => {
+	const data = await useProjectsStore().getProjectBySlug(slug);
+	return data;
+};
+
+const projectsList: ProjectDTO = await getProjects().then((res) => res);
+
+const displayImages =
+	projectsList.images && projectsList.images.length > 0
+		? projectsList.images
+		: projectsList.banner
+			? [projectsList.banner]
+			: [];
+
+export async function getStaticPaths() {
+	const projectPages: Project[] = await loadProjectData();
+	return projectPages.map((item) => ({
+		params: { slug: item.slug },
+	}));
+}
+---
+
+<Layout title={`${projectsList.title} | Proyectos Moy`}>
+  <section class="min-h-screen mx-auto max-w-5xl px-6 lg:px-0 py-12">
+    <a
+      href="/Projects"
+      class="inline-flex items-center gap-2 mb-8 text-sm font-semibold transition-colors hover:text-(--color-primary) text-(--color-secondary)"
+    >
+      <svg
+        class="w-4 h-4"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        stroke-width="2.5"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"
+        ></path>
+      </svg>
+      Volver a Proyectos
+    </a>
+
+    <header
+      class="flex flex-col items-center gap-5 mb-12 text-center scroll-reveal"
+    >
+      <span
+        class="inline-flex px-3.5 py-1 text-xs font-bold uppercase tracking-wider rounded-full bg-[rgba(37,99,235,0.08)] text-(--color-tertiary)"
+      >
+        {projectsList.typeProject}
+      </span>
+
+      <h1
+        class="font-display text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-(--color-primary)"
+      >
+        {projectsList.title}
+      </h1>
+
+      <div
+        class="flex items-center justify-center gap-2 text-xs font-semibold uppercase tracking-wider text-(--color-secondary)"
+      >
+        <svg
+          class="w-4 h-4 text-(--color-secondary)"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+          ></path>
+        </svg>
+        <span>
+          {
+            new Date(projectsList.createdAt).toLocaleDateString("es-MX", {
+              year: "numeric",
+              month: "long",
+            })
+          }
+        </span>
+      </div>
+    </header>
+
+    <article class="mx-auto w-full space-y-8 scroll-reveal">
+      {
+        displayImages.length > 0 && (
+          <div
+            class="gallery-container space-y-4"
+            id="project-gallery"
+            data-images={JSON.stringify(displayImages)}
+          >
+            <div
+              id="gallery-viewfinder"
+              class="relative overflow-hidden rounded-lg border border-[rgba(98,122,139,0.15)] bg-(--color-neutral) group shadow-md aspect-video max-w-4xl mx-auto cursor-zoom-in"
+            >
+              <div class="w-full h-full relative">
+                {displayImages.map((img, idx) => (
+                  <img
+                    src={img}
+                    alt={`${projectsList.title} captura de pantalla ${idx + 1}`}
+                    class={`viewfinder-img absolute inset-0 w-full h-full object-cover transition-all duration-500 ease-in-out ${
+                      idx === 0
+                        ? "opacity-100 scale-100 z-10"
+                        : "opacity-0 scale-95 pointer-events-none z-0"
+                    }`}
+                    data-index={idx}
+                  />
+                ))}
+              </div>
+              <div class="absolute inset-0 bg-linear-to-t from-[#0e1a24]/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6 pointer-events-none z-20">
+                <div class="flex justify-between items-center text-white w-full">
+                  <span
+                    class="text-xs font-semibold backdrop-blur-md bg-black/40 px-3.5 py-1.5 rounded-full border border-white/10"
+                    id="gallery-counter"
+                  >
+                    Captura 1 de {displayImages.length}
+                  </span>
+                  <span class="text-xs font-bold uppercase tracking-wider backdrop-blur-md bg-(--color-tertiary)/80 px-3.5 py-1.5 rounded-full border border-white/10 flex items-center gap-1.5 shadow-sm">
+                    <svg
+                      class="w-3.5 h-3.5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      stroke-width="2.5"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"
+                      />
+                    </svg>
+                    Ampliar
+                  </span>
+                </div>
+              </div>
+
+              {displayImages.length > 1 && (
+                <>
+                  <button
+                    id="prev-btn"
+                    class="absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 flex items-center justify-center rounded-full bg-white/90 hover:bg-white text-(--color-primary) border border-[rgba(98,122,139,0.15)] shadow-md hover:scale-105 transition-all opacity-0 group-hover:opacity-100 duration-300 focus:opacity-100 focus:outline-none z-30"
+                    aria-label="Imagen anterior"
+                  >
+                    <svg
+                      class="w-5 h-5 stroke-current"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="2.5"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M15 19l-7-7 7-7"
+                      />
+                    </svg>
+                  </button>
+                  <button
+                    id="next-btn"
+                    class="absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 flex items-center justify-center rounded-full bg-white/90 hover:bg-white text-(--color-primary) border border-[rgba(98,122,139,0.15)] shadow-md hover:scale-105 transition-all opacity-0 group-hover:opacity-100 duration-300 focus:opacity-100 focus:outline-none z-30"
+                    aria-label="Siguiente imagen"
+                  >
+                    <svg
+                      class="w-5 h-5 stroke-current"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="2.5"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </button>
+                </>
+              )}
+            </div>
+
+            {displayImages.length > 1 && (
+              <div class="relative max-w-4xl mx-auto group/strip">
+                <div
+                  class="absolute left-0 top-0 bottom-0 w-10 bg-linear-to-r from-[#EEF4F9] to-transparent pointer-events-none z-10 opacity-0 transition-opacity duration-300"
+                  id="scroll-fade-left"
+                />
+                <div
+                  class="absolute right-0 top-0 bottom-0 w-10 bg-linear-to-l from-[#EEF4F9] to-transparent pointer-events-none z-10 transition-opacity duration-300"
+                  id="scroll-fade-right"
+                />
+
+                <div
+                  id="thumbnails-strip"
+                  class="flex overflow-x-auto gap-3 pb-3 pt-1 px-1 scrollbar-thin scroll-smooth snap-x"
+                >
+                  {displayImages.map((img, idx) => (
+                    <button
+                      class={`thumbnail-btn relative w-28 sm:w-36 aspect-video rounded-md overflow-hidden border-2 shrink-0 transition-all duration-300 focus:outline-none snap-start ${
+                        idx === 0
+                          ? "border-(--color-tertiary) shadow-sm scale-[1.02]"
+                          : "border-[rgba(98,122,139,0.15)] grayscale contrast-90 hover:grayscale-0 hover:border-(--color-secondary)"
+                      }`}
+                      data-index={idx}
+                      aria-label={`Ver imagen ${idx + 1}`}
+                    >
+                      <img
+                        src={img}
+                        alt={`Miniatura ${idx + 1}`}
+                        class="w-full h-full object-cover"
+                        loading="lazy"
+                      />
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <dialog
+              id="lightbox-dialog"
+              class="fixed inset-0 m-0 w-full h-full max-w-none max-h-none border-none bg-[#0e1a24]/90 backdrop-blur-xl p-0 flex flex-col justify-center items-center opacity-0 pointer-events-none transition-all duration-300 focus:outline-none z-50 open:opacity-100 open:pointer-events-auto"
+            >
+              <div class="relative w-full h-full flex flex-col justify-center items-center p-4 sm:p-8 select-none">
+                <button
+                  id="lightbox-close"
+                  class="absolute top-4 right-4 sm:top-6 sm:right-6 w-12 h-12 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white hover:scale-105 transition-all duration-300 focus:outline-none"
+                  aria-label="Cerrar vista ampliada"
+                >
+                  <svg
+                    class="w-6 h-6 stroke-current"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="2.5"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+
+                <div class="relative max-w-[90vw] max-h-[75vh] flex justify-center items-center">
+                  <img
+                    id="lightbox-img"
+                    src=""
+                    alt="Vista ampliada"
+                    class="max-w-full max-h-[75vh] object-contain rounded-md shadow-2xl border border-white/10 transition-all duration-300 scale-95 opacity-0"
+                  />
+
+                  {displayImages.length > 1 && (
+                    <>
+                      <button
+                        id="lightbox-prev"
+                        class="absolute -left-4 sm:-left-16 top-1/2 -translate-y-1/2 w-14 h-14 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white hover:scale-105 transition-all duration-300 focus:outline-none"
+                        aria-label="Imagen anterior"
+                      >
+                        <svg
+                          class="w-6 h-6 stroke-current"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke-width="2.5"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M15 19l-7-7 7-7"
+                          />
+                        </svg>
+                      </button>
+                      <button
+                        id="lightbox-next"
+                        class="absolute -right-4 sm:-right-16 top-1/2 -translate-y-1/2 w-14 h-14 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white hover:scale-105 transition-all duration-300 focus:outline-none"
+                        aria-label="Siguiente imagen"
+                      >
+                        <svg
+                          class="w-6 h-6 stroke-current"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke-width="2.5"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M9 5l7 7-7 7"
+                          />
+                        </svg>
+                      </button>
+                    </>
+                  )}
+                </div>
+
+                <div class="mt-6 text-center text-white/80">
+                  <p
+                    class="text-sm font-semibold tracking-wide"
+                    id="lightbox-counter"
+                  >
+                    Captura 1 de {displayImages.length}
+                  </p>
+                  <p class="text-xs text-white/50 mt-1.5 hidden sm:block">
+                    Usa las flechas (← / →) o desliza. Esc para salir.
+                  </p>
+                </div>
+              </div>
+            </dialog>
+          </div>
+        )
+      }
+
+      <div class="arctic-card p-8">
+        <h2
+          class="text-xl font-bold tracking-tight mb-4 flex items-center gap-3 text-(--color-primary)"
+        >
+          <svg
+            class="w-5 h-5 text-(--color-tertiary)"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2.5"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            ></path>
+          </svg>
+          Acerca del proyecto
+        </h2>
+        <p class="font-body text-base leading-relaxed text-(--color-secondary)">
+          {projectsList.description}
+        </p>
+      </div>
+
+      <div class="flex flex-wrap gap-4">
+        {
+          !projectsList.link.includes("#") && (
+            <a
+              href={projectsList.link}
+              target="_blank"
+              rel="noopener"
+              class="btn-primary"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-4 h-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                <polyline points="15 3 21 3 21 9" />
+                <line x1="10" y1="14" x2="21" y2="3" />
+              </svg>
+              Ver Demo
+            </a>
+          )
+        }
+
+        {
+          projectsList.linkBackend.map((item) => (
+            <a
+              href={item}
+              target="_blank"
+              rel="noopener"
+              class="inline-flex items-center gap-2 px-5 py-3 text-xs font-bold uppercase tracking-wider rounded-sm transition-all border border-[rgba(98,122,139,0.15)] bg-white text-(--color-secondary) hover:bg-(--color-neutral) hover:text-(--color-primary)"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-4 h-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+              </svg>
+              Documentación API
+            </a>
+          ))
+        }
+
+        {
+          projectsList.linkFrontend.map((item) => (
+            <a
+              href={item}
+              target="_blank"
+              rel="noopener"
+              class="inline-flex items-center gap-2 px-5 py-3 text-xs font-bold uppercase tracking-wider rounded-sm transition-all border border-[rgba(98,122,139,0.15)] bg-white text-(--color-secondary) hover:bg-(--color-neutral) hover:text-(--color-primary)"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-4 h-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+              </svg>
+              Código Fuente
+            </a>
+          ))
+        }
+      </div>
+
+      <div class="grid gap-8 lg:grid-cols-2">
+        <article class="arctic-card p-8">
+          <h2
+            class="text-xl font-bold tracking-tight mb-2 flex items-center gap-3 text-(--color-primary)"
+          >
+            <svg
+              class="w-5 h-5 text-(--color-tertiary)"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2.5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+            </svg>
+            Stack Tecnológico
+          </h2>
+          <p
+            class="text-xs font-semibold uppercase tracking-wider text-(--color-secondary) mb-6"
+          >
+            Tecnologías utilizadas
+          </p>
+          <ul class="flex flex-wrap gap-2.5">
+            {
+              projectsList.technologies.map((item) => (
+                <li class="px-3 py-1.5 rounded-sm text-xs font-bold border border-[rgba(98,122,139,0.15)] bg-(--color-neutral) text-(--color-secondary)">
+                  {item}
+                </li>
+              ))
+            }
+          </ul>
+        </article>
+
+        <article class="arctic-card p-8">
+          <h2
+            class="text-xl font-bold tracking-tight mb-2 flex items-center gap-3 text-(--color-primary)"
+          >
+            <svg
+              class="w-5 h-5 text-(--color-tertiary)"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2.5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+              ></path>
+            </svg>
+            Características clave
+          </h2>
+          <p
+            class="text-xs font-semibold uppercase tracking-wider text-(--color-secondary) mb-6"
+          >
+            Funcionalidades principales
+          </p>
+          <ul class="space-y-3.5">
+            {
+              projectsList.characteristics.map((item) => (
+                <li class="flex items-start gap-3 font-body text-sm text-(--color-secondary)">
+                  <svg
+                    class="w-4 h-4 text-emerald-500 shrink-0 mt-0.5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="3"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                  <span>{item}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </article>
+
+        <article class="arctic-card p-8 lg:col-span-2">
+          <h2
+            class="text-xl font-bold tracking-tight mb-2 flex items-center gap-3 text-(--color-primary)"
+          >
+            <svg
+              class="w-5 h-5 text-(--color-tertiary)"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2.5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+              ></path>
+            </svg>
+            Lecciones Aprendidas
+          </h2>
+          <p
+            class="text-xs font-semibold uppercase tracking-wider text-(--color-secondary) mb-6"
+          >
+            Retos resueltos e investigación
+          </p>
+          <ul class="space-y-3.5">
+            {
+              projectsList.learning.map((item) => (
+                <li class="flex items-start gap-3 font-body text-sm text-(--color-secondary)">
+                  <svg
+                    class="w-4 h-4 text-amber-500 shrink-0 mt-0.5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="3"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M13 10V3L4 14h7v7l9-11h-7z"
+                    />
+                  </svg>
+                  <span>{item}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </article>
+      </div>
+    </article>
+  </section>
+  <Footer />
+</Layout>
+
+<style>
+  #thumbnails-strip {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-secondary) transparent;
+  }
+
+  #thumbnails-strip::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  #thumbnails-strip::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  #thumbnails-strip::-webkit-scrollbar-thumb {
+    background-color: rgba(98, 122, 139, 0.4);
+    border-radius: var(--radius-sm);
+    transition: background-color 0.2s ease;
+  }
+
+  #thumbnails-strip::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-secondary);
+  }
+
+  .viewfinder-img {
+    will-change: opacity, transform;
+    backface-visibility: hidden;
+  }
+
+  dialog::backdrop {
+    background-color: rgba(14, 26, 36, 0.85);
+    backdrop-filter: blur(16px);
+    opacity: 0;
+    transition: opacity 0.3s ease-out;
+  }
+
+  dialog[open]::backdrop {
+    opacity: 1;
+  }
+
+  dialog {
+    transition: opacity 0.3s ease-out;
+    opacity: 0;
+  }
+
+  dialog[open] {
+    opacity: 1;
+  }
+</style>
+
+<script is:inline>
+  function setupGallery() {
+    const gallery = document.getElementById("project-gallery");
+    if (!gallery) return;
+
+    const images = JSON.parse(gallery.dataset.images || "[]");
+    if (images.length === 0) return;
+
+    let currentIndex = 0;
+
+    const viewImgEls = document.querySelectorAll(".viewfinder-img");
+    const counter = document.getElementById("gallery-counter");
+    const prevBtn = document.getElementById("prev-btn");
+    const nextBtn = document.getElementById("next-btn");
+    const thumbnails = document.querySelectorAll(".thumbnail-btn");
+    const strip = document.getElementById("thumbnails-strip");
+
+    const lightbox = document.getElementById("lightbox-dialog");
+    const lightboxImg = document.getElementById("lightbox-img");
+    const lightboxClose = document.getElementById("lightbox-close");
+    const lightboxPrev = document.getElementById("lightbox-prev");
+    const lightboxNext = document.getElementById("lightbox-next");
+    const lightboxCounter = document.getElementById("lightbox-counter");
+
+    const fadeLeft = document.getElementById("scroll-fade-left");
+    const fadeRight = document.getElementById("scroll-fade-right");
+
+    function updateGalleryState(index) {
+      if (index < 0 || index >= images.length) return;
+      currentIndex = index;
+
+      viewImgEls.forEach((img, idx) => {
+        if (idx === currentIndex) {
+          img.classList.remove(
+            "opacity-0",
+            "scale-95",
+            "pointer-events-none",
+            "z-0",
+          );
+          img.classList.add("opacity-100", "scale-100", "z-10");
+        } else {
+          img.classList.remove("opacity-100", "scale-100", "z-10");
+          img.classList.add(
+            "opacity-0",
+            "scale-95",
+            "pointer-events-none",
+            "z-0",
+          );
+        }
+      });
+
+      if (counter) {
+        counter.textContent = `Captura ${currentIndex + 1} de ${images.length}`;
+      }
+      thumbnails.forEach((btn, idx) => {
+        if (idx === currentIndex) {
+          btn.classList.remove(
+            "border-[rgba(98,122,139,0.15)]",
+            "grayscale",
+            "contrast-90",
+          );
+          btn.classList.add(
+            "border-(--color-tertiary)",
+            "shadow-sm",
+            "scale-[1.02]",
+          );
+
+          if (strip) {
+            const scrollLeft =
+              btn.offsetLeft - strip.offsetWidth / 2 + btn.offsetWidth / 2;
+            strip.scrollTo({ left: scrollLeft, behavior: "smooth" });
+          }
+        } else {
+          btn.classList.add(
+            "border-[rgba(98,122,139,0.15)]",
+            "grayscale",
+            "contrast-90",
+          );
+          btn.classList.remove(
+            "border-(--color-tertiary)",
+            "shadow-sm",
+            "scale-[1.02]",
+          );
+        }
+      });
+
+      if (lightbox && lightbox.open) {
+        updateLightboxState();
+      }
+    }
+
+    function updateLightboxState() {
+      if (!lightboxImg || !lightboxCounter) return;
+
+      lightboxImg.classList.remove("opacity-100", "scale-100");
+      lightboxImg.classList.add("opacity-0", "scale-95");
+
+      setTimeout(() => {
+        lightboxImg.src = images[currentIndex];
+        lightboxImg.onload = () => {
+          lightboxImg.classList.remove("opacity-0", "scale-95");
+          lightboxImg.classList.add("opacity-100", "scale-100");
+        };
+      }, 150);
+
+      lightboxCounter.textContent = `Captura ${currentIndex + 1} de ${images.length}`;
+    }
+
+    function nextImage() {
+      const nextIdx = (currentIndex + 1) % images.length;
+      updateGalleryState(nextIdx);
+    }
+
+    function prevImage() {
+      const prevIdx = (currentIndex - 1 + images.length) % images.length;
+      updateGalleryState(prevIdx);
+    }
+
+    if (prevBtn)
+      prevBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        prevImage();
+      });
+    if (nextBtn)
+      nextBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        nextImage();
+      });
+
+    const mainWrapper = document.getElementById("gallery-viewfinder");
+    if (mainWrapper) {
+      mainWrapper.addEventListener("click", () => {
+        if (lightbox) {
+          if (lightboxImg) {
+            lightboxImg.src = images[currentIndex];
+            lightboxImg.onload = () => {
+              lightboxImg.classList.remove("opacity-0", "scale-95");
+              lightboxImg.classList.add("opacity-100", "scale-100");
+            };
+          }
+          if (lightboxCounter) {
+            lightboxCounter.textContent = `Captura ${currentIndex + 1} de ${images.length}`;
+          }
+
+          lightbox.showModal();
+          document.body.style.overflow = "hidden";
+        }
+      });
+    }
+
+    thumbnails.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const idx = parseInt(btn.getAttribute("data-index") || "0", 10);
+        updateGalleryState(idx);
+      });
+    });
+
+    function closeLightbox() {
+      if (lightbox) {
+        lightbox.close();
+        document.body.style.overflow = "";
+      }
+    }
+
+    if (lightboxClose) lightboxClose.addEventListener("click", closeLightbox);
+
+    if (lightbox) {
+      lightbox.addEventListener("click", (e) => {
+        if (e.target === lightbox) {
+          closeLightbox();
+        }
+      });
+    }
+
+    if (lightboxPrev)
+      lightboxPrev.addEventListener("click", (e) => {
+        e.stopPropagation();
+        prevImage();
+      });
+    if (lightboxNext)
+      lightboxNext.addEventListener("click", (e) => {
+        e.stopPropagation();
+        nextImage();
+      });
+
+    const handleKeyDown = (e) => {
+      if (lightbox && lightbox.open) {
+        if (e.key === "ArrowRight") {
+          nextImage();
+        } else if (e.key === "ArrowLeft") {
+          prevImage();
+        } else if (e.key === "Escape") {
+          closeLightbox();
+        }
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    if (strip && fadeLeft && fadeRight) {
+      const checkScroll = () => {
+        const scrollLeft = strip.scrollLeft;
+        const maxScroll = strip.scrollWidth - strip.clientWidth;
+
+        fadeLeft.style.opacity = scrollLeft > 10 ? "1" : "0";
+        fadeRight.style.opacity = scrollLeft < maxScroll - 10 ? "1" : "0";
+      };
+
+      strip.addEventListener("scroll", checkScroll);
+      window.addEventListener("resize", checkScroll);
+      setTimeout(checkScroll, 100);
+    }
+
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    if (lightbox) {
+      lightbox.addEventListener(
+        "touchstart",
+        (e) => {
+          touchStartX = e.changedTouches[0].screenX;
+        },
+        { passive: true },
+      );
+
+      lightbox.addEventListener(
+        "touchend",
+        (e) => {
+          touchEndX = e.changedTouches[0].screenX;
+          handleSwipe();
+        },
+        { passive: true },
+      );
+    }
+
+    function handleSwipe() {
+      const swipeThreshold = 50;
+      if (touchStartX - touchEndX > swipeThreshold) {
+        nextImage();
+      } else if (touchEndX - touchStartX > swipeThreshold) {
+        prevImage();
+      }
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", setupGallery);
+  } else {
+    setupGallery();
+  }
+  document.addEventListener("astro:after-swap", setupGallery);
+</script>
