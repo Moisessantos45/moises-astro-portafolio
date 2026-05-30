@@ -3,7 +3,7 @@ const getString = (value: unknown, fallback: string = ""): string =>
 
 const getNumber = (value: unknown, fallback: number = 0): number => {
   const num = Number(value);
-  return isNaN(num) ? fallback : num;
+  return Number.isNaN(num) ? fallback : num;
 };
 
 const formatDate = (value: unknown): string => {
@@ -17,7 +17,7 @@ const getDateToString = (value: unknown): string => {
   if (!str) return "";
 
   const date = new Date(str);
-  if (isNaN(date.getTime())) return "";
+  if (Number.isNaN(date.getTime())) return "";
 
   return date.toISOString().split("T")[0] ?? "";
 };
