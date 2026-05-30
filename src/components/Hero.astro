@@ -1,107 +1,162 @@
----
-import { URL_CV } from "astro:env/client";
----
+<section class="section-max pt-20 pb-16 md:pt-28 md:pb-24 scroll-reveal">
+  <div
+    class="flex flex-col md:flex-row items-center md:items-start justify-between gap-14 md:gap-20"
+  >
+    <div class="w-full md:w-[55%] space-y-8 text-center md:text-left">
+      <div class="space-y-1">
+        <p class="label-tag">San Luis Potosí, México &bull; Disponible para proyectos</p>
+      </div>
 
-<main class="m-auto max-w-screen-lg mt-16 mb-16 lg:px-0 px-4">
-  <div class="flex flex-col md:flex-row items-center justify-between gap-16">
-    <div class="md:w-2/3">
-      <h1 class="text-5xl font-bold mb-6 tracking-tight">
-        Hi there, I'm <span class="gradient-text animate-pulse">Moises</span> 
-        <span class="inline-block animate-wave">👋</span>
-      </h1>
-      <p class="text-lg mb-8 leading-relaxed text-slate-300 dark:text-slate-300">
-        Full Stack Developer passionate about building modern web and mobile 
-        applications. I love exploring new technologies and turning ideas into 
-        elegant, functional solutions. Currently pursuing Intelligent Systems 
-        Engineering at UASLP.
-      </p>
-      <div class="flex space-x-6">
-        <a
-          href="https://www.youtube.com/@moy_4520"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-sky-400 hover:text-sky-300 transition-all transform hover:scale-110"
+      <div class="space-y-5">
+        <h1
+          class="font-display text-5xl sm:text-6xl lg:text-7xl text-(--color-ink) leading-[1.05]"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"></path>
+          <em>Moises Santos.</em>
+        </h1>
+
+        <p
+          class="font-body text-lg text-(--color-ink-soft) leading-relaxed max-w-lg mx-auto md:mx-0"
+        >
+          Ayudo a empresas y emprendedores a digitalizar procesos y tener más control de su operación mediante sistemas web y móviles hechos a la medida.
+        </p>
+
+        <p
+          class="font-body text-sm text-(--color-ink-muted) leading-relaxed max-w-md mx-auto md:mx-0"
+        >
+          Control de inventario, registro de accesos, gestión de pagos, ecommerce y plataformas internas. Menos errores, más orden, más tiempo para tu negocio.
+        </p>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-3 justify-center md:justify-start">
+        <a
+          href="/Projects"
+          class="btn-primary group"
+          id="hero-projects-cta"
+        >
+          Ver proyectos
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M14 5l7 7m0 0l-7 7m7-7H3"
+            ></path>
           </svg>
         </a>
+
         <a
-          href="https://github.com/Moisessantos45"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-sky-400 hover:text-sky-300 transition-all transform hover:scale-110"
+          href="/About#contacto"
+          class="btn-ghost"
+          id="hero-contact-cta"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path>
-          </svg>
+          Contactarme
         </a>
-        <a
-          href="https://www.linkedin.com/in/moises-santos-hern%C3%A1ndez-31192b290/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-sky-400 hover:text-sky-300 transition-all transform hover:scale-110"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path>
-          </svg>
-        </a>
-        <a
-          href="https://www.facebook.com/people/WebDev-by-Moises/61556653184440/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-sky-400 hover:text-sky-300 transition-all transform hover:scale-110"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"></path>
-          </svg>
-        </a>
-        <a
-          href={URL_CV}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-sky-400 hover:text-sky-300 transition-all transform hover:scale-110"
-          title="Download CV"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 16l4-4h-3V3h-2v9H8l4 4zm9-13h-6v1.99h6v14.03H3V4.99h6V3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"></path>
-          </svg>
-        </a>
+
+        <div class="flex items-center gap-3 ml-1">
+          <a
+            href="https://github.com/Moisessantos45"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="w-10 h-10 rounded-lg flex items-center justify-center border border-(--color-border-mid) bg-white text-(--color-ink-soft) hover:text-(--color-ink) hover:border-[rgba(24,24,27,0.22)] transition-all duration-200"
+            aria-label="Perfil de GitHub"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4.5 w-4.5"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+              ></path>
+            </svg>
+          </a>
+
+          <a
+            href="https://www.linkedin.com/in/moises-santos-hern%C3%A1ndez-31192b290/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="w-10 h-10 rounded-lg flex items-center justify-center border border-(--color-border-mid) bg-white text-(--color-ink-soft) hover:text-(--color-ink) hover:border-[rgba(24,24,27,0.22)] transition-all duration-200"
+            aria-label="Perfil de LinkedIn"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4.5 w-4.5"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
+              ></path>
+            </svg>
+          </a>
+
+          <a
+            href="https://www.youtube.com/@moy_4520"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="w-10 h-10 rounded-lg flex items-center justify-center border border-(--color-border-mid) bg-white text-(--color-ink-soft) hover:text-(--color-ink) hover:border-[rgba(24,24,27,0.22)] transition-all duration-200"
+            aria-label="Canal de YouTube"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4.5 w-4.5"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"
+              ></path>
+            </svg>
+          </a>
+        </div>
       </div>
     </div>
-    <div class="md:w-1/3 relative">
-      <div class="absolute -inset-1 bg-gradient-to-r from-sky-400 to-blue-500 rounded-full blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-pulse"></div>
-      <img
-        src="https://res.cloudinary.com/dtkskpitc/image/upload/f_webp,q_auto/v1723951107/cv-proyects/niwkkte9km7amzss4hwb"
-        alt="Moises Santos"
-        class="relative rounded-full w-64 h-64 object-cover shadow-xl border-4 border-sky-400/50 hover:border-sky-400 transition-all duration-300"
-      />
+
+    <div class="w-full md:w-[38%] flex justify-center md:justify-end">
+      <div class="relative w-72 h-72 sm:w-80 sm:h-80 group">
+        <div
+          class="absolute inset-0 rounded-2xl bg-(--color-surface-alt) translate-x-3 translate-y-3 transition-transform duration-500 group-hover:translate-x-5 group-hover:translate-y-5"
+        >
+        </div>
+        <div
+          class="relative w-full h-full rounded-2xl overflow-hidden border border-(--color-border-mid) bg-white"
+        >
+          <img
+            src="/foto.jpg"
+            alt="Moises Santos"
+            class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+            loading="eager"
+          />
+        </div>
+      </div>
     </div>
   </div>
-</main>
+</section>
 
 <style>
-  @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap");
-  body {
-    font-family: "Poppins", sans-serif;
-    background-color: #0f172a;
-    color: #e2e8f0;
-  }
-  .gradient-text {
-    background: linear-gradient(45deg, #3b82f6, #38bdf8);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
   @keyframes wave {
-    0%, 100% { transform: rotate(0deg); }
-    25% { transform: rotate(-20deg); }
-    75% { transform: rotate(20deg); }
-  }
-
-  .animate-wave {
-    animation: wave 1.5s infinite;
-    transform-origin: 70% 70%;
+    0%,
+    100% {
+      transform: rotate(0deg);
+    }
+    20% {
+      transform: rotate(-15deg);
+    }
+    40% {
+      transform: rotate(10deg);
+    }
+    60% {
+      transform: rotate(-10deg);
+    }
+    80% {
+      transform: rotate(5deg);
+    }
   }
 </style>

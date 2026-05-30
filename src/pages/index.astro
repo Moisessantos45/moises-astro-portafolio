@@ -1,16 +1,15 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Hero from "../components/Hero.astro";
-import Proyects from "../components/Proyects.astro";
-import LastedProjetc from "@/components/section/LastedProjetc.vue";
+import RecentProjects from "@/components/section/RecentProjects.vue";
 import Experience from "@/components/section/Experience.vue";
+
 import Footer from "../components/Footer.astro";
 ---
 
-<Layout title="Proyects Moy">
+<Layout title="Moisés Santos — Desarrollo web y móvil para problemas reales de negocio">
   <Hero />
-  <Proyects />
-  <LastedProjetc client:load />
-  <Experience client:load />
+  <RecentProjects client:visible />
+  <Experience client:visible />
   <Footer />
 </Layout>

@@ -1,0 +1,319 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Footer from "@/components/Footer.astro";
+import type { PostInfoBasic } from "@/types/post";
+import { initialPostData } from "@/types/post";
+import api from "@/api/config";
+import { marked } from "marked";
+
+const { slug } = Astro.params;
+
+let post: PostInfoBasic = initialPostData;
+
+try {
+	const { data } = await api.get(`/post/${slug}`);
+	post = data?.data ?? initialPostData;
+} catch {
+	post = initialPostData;
+}
+
+const formatDate = (dateString: string) => {
+	if (!dateString) return "";
+	return new Date(dateString).toLocaleDateString("es-MX", {
+		day: "numeric",
+		month: "long",
+		year: "numeric",
+	});
+};
+
+const wordCount = post.content ? post.content.split(/\s+/).length : 0;
+const readingTime = Math.max(1, Math.ceil(wordCount / 200));
+const contentHtml = post.content ? marked.parse(post.content) : "";
+
+export async function getStaticPaths() {
+	try {
+		const { data } = await api.get("/post/public");
+		const posts: PostInfoBasic[] = data?.data?.data ?? [];
+		return posts.map((p) => ({ params: { slug: p.slug } }));
+	} catch {
+		return [];
+	}
+}
+---
+
+<Layout
+  title={post.title
+    ? `${post.title} | Blog Moises Santos`
+    : "Post | Blog Moises Santos"}
+  description={post.content?.substring(0, 160) ?? ""}
+>
+  <article class="min-h-screen">
+    <div class="section-max pt-14 pb-6">
+      <a
+        href="/Blog"
+        class="inline-flex items-center gap-2 mb-12 font-body text-sm text-(--color-ink-muted) hover:text-(--color-ink) transition-colors duration-200"
+      >
+        <svg
+          class="w-4 h-4"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M15 19l-7-7 7-7"></path>
+        </svg>
+        Volver al Blog
+      </a>
+
+      <header class="mb-12 scroll-reveal">
+        {
+          post.category && (
+            <div class="mb-5">
+              <span class="tech-tag">{post.category}</span>
+            </div>
+          )
+        }
+
+        <h1
+          class="font-display text-4xl sm:text-5xl lg:text-6xl text-(--color-ink) leading-[1.05] mb-6"
+        >
+          {post.title || "Sin título"}
+        </h1>
+
+        <div
+          class="flex flex-wrap items-center gap-4 text-sm text-(--color-ink-muted)"
+        >
+          {
+            post.author && (
+              <span class="font-body font-medium text-(--color-ink-soft)">
+                {post.author}
+              </span>
+            )
+          }
+
+          {
+            post.createdAt && (
+              <>
+                {post.author && <span aria-hidden="true">·</span>}
+                <time datetime={post.createdAt} class="font-body">
+                  {formatDate(post.createdAt)}
+                </time>
+              </>
+            )
+          }
+
+          {
+            wordCount > 0 && (
+              <>
+                <span aria-hidden="true">·</span>
+                <span class="font-body">{readingTime} min de lectura</span>
+              </>
+            )
+          }
+        </div>
+
+        {
+          post.tags && post.tags.length > 0 && (
+            <div class="flex flex-wrap gap-2 mt-5">
+              {post.tags.map((tag) => (
+                <span class="tech-tag">#{tag}</span>
+              ))}
+            </div>
+          )
+        }
+      </header>
+
+      {
+        post.banner && (
+          <figure class="mb-12 scroll-reveal">
+            <div class="w-full aspect-21/9 rounded-2xl overflow-hidden bg-(--color-surface-alt) border border-(--color-border)">
+              <img
+                src={post.banner}
+                alt={`Imagen de portada: ${post.title}`}
+                class="w-full h-full object-cover"
+                loading="eager"
+              />
+            </div>
+          </figure>
+        )
+      }
+    </div>
+
+    <div class="section-max pb-24">
+      <div class="grid grid-cols-1 lg:grid-cols-[1fr_260px] gap-12 items-start">
+        <div class="min-w-0">
+          {
+            contentHtml ? (
+              <div class="post-content font-body text-base text-(--color-ink-soft) leading-relaxed">
+                <Fragment set:html={contentHtml} />
+              </div>
+            ) : (
+              <div class="py-16 text-center">
+                <p class="font-display text-3xl text-(--color-ink) mb-3">
+                  Contenido no disponible
+                </p>
+                <p class="font-body text-sm text-(--color-ink-soft)">
+                  Este artículo no tiene contenido disponible todavía.
+                </p>
+              </div>
+            )
+          }
+        </div>
+
+        <aside class="hidden lg:block">
+          <div class="sticky top-24 space-y-6">
+            {
+              post.tags && post.tags.length > 0 && (
+                <div class="portfolio-card p-6">
+                  <h2 class="label-tag mb-4">Etiquetas</h2>
+                  <ul
+                    class="flex flex-wrap gap-2"
+                    aria-label="Etiquetas del artículo"
+                  >
+                    {post.tags.map((tag) => (
+                      <li>
+                        <span class="tech-tag">#{tag}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )
+            }
+
+            {
+              post.author && (
+                <div class="portfolio-card p-6">
+                  <h2 class="label-tag mb-4">Autor</h2>
+                  <p class="font-body text-sm font-semibold text-(--color-ink)">
+                    {post.author}
+                  </p>
+                </div>
+              )
+            }
+
+            <div class="portfolio-card p-6">
+              <h2 class="label-tag mb-4">Lectura</h2>
+              <p class="font-body text-sm text-(--color-ink-soft)">
+                {readingTime} min
+              </p>
+            </div>
+
+            <a href="/Blog" class="btn-ghost w-full justify-center text-sm">
+              ← Volver al Blog
+            </a>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </article>
+
+  <Footer />
+</Layout>
+
+<style>
+  .post-content :global(h1),
+  .post-content :global(h2),
+  .post-content :global(h3),
+  .post-content :global(h4) {
+    font-family: var(--font-display);
+    color: var(--color-ink);
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.15;
+  }
+
+  .post-content :global(h1) {
+    font-size: 2.25rem;
+  }
+  .post-content :global(h2) {
+    font-size: 1.75rem;
+  }
+  .post-content :global(h3) {
+    font-size: 1.375rem;
+  }
+  .post-content :global(h4) {
+    font-size: 1.125rem;
+  }
+
+  .post-content :global(p) {
+    margin-bottom: 1.25rem;
+    line-height: 1.75;
+  }
+
+  .post-content :global(a) {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .post-content :global(a:hover) {
+    opacity: 0.75;
+  }
+
+  .post-content :global(ul),
+  .post-content :global(ol) {
+    margin-bottom: 1.25rem;
+    padding-left: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .post-content :global(ul) {
+    list-style-type: disc;
+  }
+  .post-content :global(ol) {
+    list-style-type: decimal;
+  }
+
+  .post-content :global(blockquote) {
+    border-left: 3px solid var(--color-border-mid);
+    padding-left: 1.25rem;
+    margin: 1.5rem 0;
+    color: var(--color-ink-muted);
+    font-style: italic;
+  }
+
+  .post-content :global(code) {
+    font-family: ui-monospace, monospace;
+    font-size: 0.875em;
+    background: var(--color-surface-alt);
+    border: 1px solid var(--color-border);
+    padding: 0.15em 0.4em;
+    border-radius: 4px;
+    color: var(--color-ink);
+  }
+
+  .post-content :global(pre) {
+    background: var(--color-surface-alt);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: 1.25rem;
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+  }
+
+  .post-content :global(pre code) {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 0.875rem;
+    line-height: 1.7;
+  }
+
+  .post-content :global(img) {
+    width: 100%;
+    border-radius: 12px;
+    margin: 1.5rem 0;
+    border: 1px solid var(--color-border);
+  }
+
+  .post-content :global(hr) {
+    border: none;
+    border-top: 1px solid var(--color-border);
+    margin: 2rem 0;
+  }
+</style>

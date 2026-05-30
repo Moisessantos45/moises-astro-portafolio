@@ -1,27 +1,35 @@
 import { ref } from "vue";
-import { api } from "@/api/config";
-import type { TypeProject } from "@/types/data";
-import { fromToJsonMap } from "@/service/data.service";
-import { initialState } from "@/service/api";
+import api from "@/api/config";
+import {
+  initialProject,
+  type Project,
+  type ProjectDTO,
+} from "@/types/project";
+import {
+  mapperProject,
+  mapperProjectDTO,
+} from "@/helpers/mappers/project";
+import { initialPaginationState, type Pagination } from "@/types/pagination";
+import { mapperPagination } from "@/helpers/mappers/paginated";
 
-const projectsCache = ref<TypeProject[]>([]);
+const projects = ref<Project[]>([]);
 const isLoading = ref(false);
 const isLoaded = ref(false);
 const error = ref<Error | null>(null);
+const paginated = ref<Pagination>(structuredClone(initialPaginationState));
 
 export function useProjectsStore() {
-  const fetchProjects = async (
-    forceRefresh = false,
-  ): Promise<TypeProject[]> => {
-    if (isLoaded.value && projectsCache.value.length > 0 && !forceRefresh) {
-      return projectsCache.value;
+  const getAllProjects = async (forceRefresh = false): Promise<Project[]> => {
+    if (isLoaded.value && projects.value.length > 0 && !forceRefresh) {
+      return projects.value;
     }
+
     if (isLoading.value) {
       return new Promise((resolve) => {
         const interval = setInterval(() => {
           if (!isLoading.value) {
             clearInterval(interval);
-            resolve(projectsCache.value);
+            resolve(projects.value);
           }
         }, 50);
       });
@@ -31,82 +39,85 @@ export function useProjectsStore() {
     error.value = null;
 
     try {
-      const { data } = await api.get("/project");
-      const newData = data["data"] ?? [];
+      const { data } = await api.get("/project/public", {
+        params: {
+          pageSize: paginated.value.pageSize,
+          page: paginated.value.page,
+        },
+      });
+      const newData = data["data"]["data"] ?? [];
 
-      const mappedProjects = newData
-        .map(fromToJsonMap)
-        .sort((a: TypeProject, b: TypeProject) => {
-          const dateA = new Date(a.createdAt).getTime();
-          const dateB = new Date(b.createdAt).getTime();
-          return dateB - dateA;
-        });
+      const mappedProjects = newData.map(mapperProject);
 
-      projectsCache.value = mappedProjects;
+      projects.value = mappedProjects;
+
+      paginated.value = mapperPagination(data["data"]["paginate"]);
       isLoaded.value = true;
 
       return mappedProjects;
     } catch (err) {
-      error.value = err as Error;
-      projectsCache.value = [];
+      error.value =
+        err instanceof Error ? err : new Error("An unknown error occurred");
+      projects.value = [];
       return [];
     } finally {
       isLoading.value = false;
     }
   };
 
-  const getProjectById = async (id: string): Promise<TypeProject> => {
+  const getProjectBySlug = async (slug: string): Promise<ProjectDTO> => {
     try {
-      const { data } = await api.get(`/project/${id}`);
-      const projectData = data["data"] ?? initialState;
-      return fromToJsonMap(projectData);
-    } catch (error) {
-      return initialState;
+      const { data } = await api.get(`/project/${slug}`);
+
+      const projectData = data["data"];
+      return mapperProjectDTO(projectData);
+    } catch (_) {
+      return initialProject;
     }
   };
 
-  const updateProjectLikes = async (proyect: TypeProject) => {
+  // const updateProjectLikes = async (proyect: TypeProject) => {
+  //   try {
+  //     await api.put(`/project/likes/${proyect.id}`, {});
+  //   } catch (error) {
+  //     return;
+  //   }
+  // };
+
+  const getLatestProjects = async (): Promise<Project[]> => {
     try {
-      await api.put(`/project/likes/${proyect.id}`, {});
-    } catch (error) {
-      return;
+      const { data } = await api.get("/project/recent", {
+        params: {
+          max: 4,
+        },
+      });
+      const projectData = data["data"]["data"] ?? [];
+      return projectData.map(mapperProject);
+    } catch (_) {
+      return [];
     }
   };
 
-  const getLatestProjects = async (count: number): Promise<TypeProject[]> => {
-    const projects = await fetchProjects();
-    return projects.slice(0, count);
+  const refresh = async (): Promise<Project[]> => {
+    return getAllProjects(true);
   };
 
-  const getActiveProjects = async (): Promise<TypeProject[]> => {
-    const projects = await fetchProjects();
-    return projects.filter((p) => p.status === "active");
-  };
-
-  const getAllProjects = async (): Promise<TypeProject[]> => {
-    return fetchProjects();
-  };
-
-  const refresh = async (): Promise<TypeProject[]> => {
-    return fetchProjects(true);
-  };
   const clearCache = () => {
-    projectsCache.value = [];
+    projects.value = [];
     isLoaded.value = false;
     error.value = null;
   };
 
   return {
-    projects: projectsCache,
+    projects,
     isLoading,
     isLoaded,
     error,
-    fetchProjects,
-    updateProjectLikes,
-    getLatestProjects,
-    getProjectById,
-    getActiveProjects,
+    paginated,
     getAllProjects,
+    // updateProjectLikes,
+    getLatestProjects,
+    getProjectBySlug,
     refresh,
     clearCache,
   };

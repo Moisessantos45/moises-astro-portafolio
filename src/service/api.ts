@@ -1,35 +1,14 @@
-import type { TypeProject } from "@/types/data";
-import { fromToJsonMap } from "./data.service";
+import { mapperProject } from "@/helpers/mappers/project";
 import { useProjectsStore } from "@/store/projectStore";
+import type { Project } from "@/types/project";
 
-const initialState: TypeProject = {
-  id: "",
-  title: "",
-  typeProyect: "",
-  description: "",
-  tecnologies: [],
-  characteristics: [],
-  learning: [],
-  image: "",
-  imagenesProyect: [],
-  link: "",
-  createdAt: "",
-  links: {
-    frontend: "",
-    backend: "",
-  },
-  status: "",
-  counter_likes: 0,
-};
-
-const loadProjectData = async (): Promise<TypeProject[]> => {
+const loadProjectData = async (): Promise<Project[]> => {
   try {
-    const data = await useProjectsStore().fetchProjects();
-    const dataProjects = data.map(fromToJsonMap);
-    return dataProjects;
+    const data = await useProjectsStore().getAllProjects();
+    return data;
   } catch (error) {
     return [];
   }
 };
 
-export { loadProjectData, initialState };
+export { loadProjectData };

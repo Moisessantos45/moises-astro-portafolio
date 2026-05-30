@@ -1,12 +1,15 @@
 ---
-const anio = new Date().getFullYear();
+const currentYear = new Date().getFullYear();
 ---
 
-<footer
-  class="sm:w-9/12 w-11/12 flex justify-center items-center flex-col m-auto gap-2 px-3 py-6"
->
-  <span class="border border-slate-200 w-full flex"></span>
-  <p class="text-slate-100 text-center">
-    © Copyright {anio} by Astro. Modified with ♥ by Moises.
-  </p>
+<footer class="w-full py-10 mt-16 border-t border-(--color-border)">
+  <div class="section-max flex flex-col sm:flex-row items-center justify-between gap-4">
+    <p class="font-body text-sm text-(--color-ink-muted)">
+      © {currentYear} Moises Santos
+    </p>
+
+    <p class="font-body text-sm text-(--color-ink-muted) flex items-center gap-1.5">
+      Construido con Astro & Vue
+    </p>
+  </div>
 </footer>

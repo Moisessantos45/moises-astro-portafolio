@@ -1,0 +1,55 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Footer from "@/components/Footer.astro";
+import ProjectsList from "@/components/section/ProjectsList.vue";
+import PageNavigator from "@/components/PageNavigator.vue";
+
+const page = Number(Astro.url.searchParams.get("page") || "1");
+---
+
+<Layout title="Proyectos | Moises Santos">
+  <section class="section-max pt-20 pb-12 scroll-reveal">
+    <p class="label-tag mb-4">Mi portafolio</p>
+
+    <div
+      class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-14"
+    >
+      <div>
+        <h1
+          class="font-display text-5xl sm:text-6xl text-(--color-ink) leading-[1.05] mb-5"
+        >
+          Proyectos creativos
+        </h1>
+        <p
+          class="font-body text-base text-(--color-ink-soft) leading-relaxed max-w-lg"
+        >
+          Una selección de proyectos que demuestran mi pasión por el desarrollo
+          web y los sistemas inteligentes.
+        </p>
+      </div>
+
+      <div class="flex items-center gap-8 shrink-0">
+        <div class="text-center sm:text-right">
+          <span class="block font-display text-4xl text-(--color-ink)">29+</span
+          >
+          <span class="label-tag text-(--color-ink-muted)">Proyectos</span>
+        </div>
+        <div class="w-px h-10 bg-(--color-border)"></div>
+        <div class="text-center sm:text-right">
+          <span class="block font-display text-4xl text-(--color-ink)">10+</span
+          >
+          <span class="label-tag text-(--color-ink-muted)">Tecnologías</span>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider mb-14" />
+  </section>
+
+  <section class="section-max pb-24 scroll-reveal">
+    <ProjectsList client:load page={page} />
+    <PageNavigator client:load baseUrl="/Projects" />
+  </section>
+
+  <Footer />
+</Layout>
