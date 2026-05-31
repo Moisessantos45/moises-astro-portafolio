@@ -18,7 +18,7 @@ const { id = "main-header" } = Astro.props;
       Moy45
     </a>
 
-    <nav aria-label="Navegación Principal" class="hidden sm:block">
+    <nav aria-label="Navegación Principal" class="hidden lg:block">
       <ul class="flex gap-x-10 items-center">
         <li>
           <a
@@ -27,7 +27,7 @@ const { id = "main-header" } = Astro.props;
           >
             Proyectos
             <span
-              class="absolute -bottom-0.5 left-0 w-0 h-px bg-[v ar(--color-ink)] transition-all duration-300 group-hover:w-full"
+              class="absolute -bottom-0.5 left-0 w-0 h-px bg-(--color-ink) transition-all duration-300 group-hover:w-full"
             ></span>
           </a>
         </li>
@@ -67,8 +67,103 @@ const { id = "main-header" } = Astro.props;
       </ul>
     </nav>
 
-    <a href="/About#contacto" class="btn-accent text-xs py-2.5 px-5">
+    <button
+      type="button"
+      class="lg:hidden inline-flex items-center gap-2 border border-(--color-border-mid) rounded-[var(--radius-sm)] px-3 py-2 text-(--color-ink) text-xs font-body font-semibold transition-colors duration-200 hover:border-(--color-ink)"
+      aria-expanded="false"
+      aria-controls="mobile-nav"
+      aria-label="Abrir menu"
+      data-mobile-toggle
+    >
+      Menu
+      <span aria-hidden="true" class="text-base leading-none">☰</span>
+    </button>
+
+    <a href="/About#contacto" class="btn-accent text-xs py-2.5 px-5 hidden lg:inline-flex">
       Contacto
     </a>
   </div>
+
+  <nav
+    id="mobile-nav"
+    aria-label="Navegacion movil"
+    class="lg:hidden border-t border-[rgba(24,24,27,0.08)] bg-[#fafaf8]/95 backdrop-blur-sm"
+    hidden
+  >
+    <div class="section-max py-4">
+      <ul class="flex flex-col gap-4">
+        <li>
+          <a
+            href="/Projects"
+            class="font-body text-sm font-medium text-(--color-ink-soft) hover:text-(--color-ink) transition-colors duration-200"
+          >
+            Proyectos
+          </a>
+        </li>
+        <li>
+          <a
+            href="/Demos"
+            class="font-body text-sm font-medium text-(--color-ink-soft) hover:text-(--color-ink) transition-colors duration-200"
+          >
+            Demos
+          </a>
+        </li>
+        <li>
+          <a
+            href="/Blog"
+            class="font-body text-sm font-medium text-(--color-ink-soft) hover:text-(--color-ink) transition-colors duration-200"
+          >
+            Blog
+          </a>
+        </li>
+        <li>
+          <a
+            href="/About"
+            class="font-body text-sm font-medium text-(--color-ink-soft) hover:text-(--color-ink) transition-colors duration-200"
+          >
+            Sobre mi
+          </a>
+        </li>
+        <li>
+          <a href="/About#contacto" class="btn-accent text-xs py-2.5 px-5 inline-flex w-fit">
+            Contacto
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
 </header>
+
+<script is:inline>
+  function setupHeaderMenu() {
+    document.querySelectorAll("[data-mobile-toggle]").forEach((button) => {
+      const menuId = button.getAttribute("aria-controls");
+      const menu = menuId ? document.getElementById(menuId) : null;
+
+      if (!menu) return;
+
+      const closeMenu = () => {
+        button.setAttribute("aria-expanded", "false");
+        menu.hidden = true;
+      };
+
+      button.addEventListener("click", () => {
+        const isOpen = button.getAttribute("aria-expanded") === "true";
+        button.setAttribute("aria-expanded", String(!isOpen));
+        menu.hidden = isOpen;
+      });
+
+      menu.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", closeMenu);
+      });
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", setupHeaderMenu);
+  } else {
+    setupHeaderMenu();
+  }
+
+  document.addEventListener("astro:after-swap", setupHeaderMenu);
+</script>
