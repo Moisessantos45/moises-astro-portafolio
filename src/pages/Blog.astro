@@ -3,8 +3,27 @@ import Layout from "../layouts/Layout.astro";
 import Footer from "@/components/Footer.astro";
 import PostList from "@/components/section/PostList.vue";
 import PageNavigator from "@/components/PageNavigator.vue";
+import api from "@/api/config";
+import { mapperPostInfoBasic } from "@/helpers/mappers/post";
+import { mapperPagination } from "@/helpers/mappers/paginated";
+import { initialPaginationState, type Pagination } from "@/types/pagination";
+import type { PostInfoBasic } from "@/types/post";
 
-const page = Number(Astro.url.searchParams.get("page") || "1");
+const page = Math.max(1, Number(Astro.url.searchParams.get("page") || "1"));
+const pageSize = 10;
+
+let posts: PostInfoBasic[] = [];
+let pagination: Pagination = structuredClone(initialPaginationState);
+
+try {
+  const { data } = await api.get("/post/public", {
+    params: { page, pageSize },
+  });
+  posts = (data["data"]["data"] ?? []).map(mapperPostInfoBasic);
+  pagination = mapperPagination(data["data"]["paginate"]);
+} catch {
+  posts = [];
+}
 ---
 
 <Layout
@@ -36,8 +55,8 @@ const page = Number(Astro.url.searchParams.get("page") || "1");
   </section>
 
   <section class="section-max pb-24 scroll-reveal">
-    <PostList client:visible page={page} />
-    <PageNavigator client:visible baseUrl="/Blog" />
+    <PostList posts={posts} />
+    <PageNavigator baseUrl="/Blog" page={page} totalPages={pagination.totalPages} />
   </section>
 
   <Footer />

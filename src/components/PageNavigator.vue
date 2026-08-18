@@ -1,7 +1,7 @@
 <template>
-  <nav v-if="paginated.totalPages > 1" class="flex items-center justify-center gap-2 mt-14">
+  <nav v-if="totalPages > 1" class="flex items-center justify-center gap-2 mt-14">
     <a :href="`${baseUrl}?page=${prevPage}`" class="btn-ghost px-4 py-2 text-xs"
-      :class="paginated.page <= 1 ? 'opacity-30 pointer-events-none' : ''">
+      :class="page <= 1 ? 'opacity-30 pointer-events-none' : ''">
       ← Anterior
     </a>
 
@@ -11,7 +11,7 @@
 
         <a v-else :href="`${baseUrl}?page=${item}`"
           class="w-9 h-9 flex items-center justify-center text-sm font-body font-medium rounded-lg transition-all duration-200 border"
-          :class="item === paginated.page
+          :class="item === page
             ? 'bg-(--color-ink) border-(--color-ink) text-white'
             : 'border-(--color-border-mid) bg-white text-(--color-ink-soft) hover:text-(--color-ink) hover:bg-(--color-surface-alt)'">
           {{ item }}
@@ -20,7 +20,7 @@
     </div>
 
     <a :href="`${baseUrl}?page=${nextPage}`" class="btn-ghost px-4 py-2 text-xs"
-      :class="paginated.page >= paginated.totalPages ? 'opacity-30 pointer-events-none' : ''">
+      :class="page >= totalPages ? 'opacity-30 pointer-events-none' : ''">
       Siguiente →
     </a>
   </nav>
@@ -28,21 +28,20 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { useProjectsStore } from "@/store/projectStore";
 
-defineProps<{
+const props = defineProps<{
   baseUrl: string;
+  page: number;
+  totalPages: number;
 }>();
 
-const { paginated } = useProjectsStore();
-
-const prevPage = computed(() => Math.max(1, paginated.value.page - 1));
-const nextPage = computed(() => Math.min(paginated.value.totalPages, paginated.value.page + 1));
+const prevPage = computed(() => Math.max(1, props.page - 1));
+const nextPage = computed(() => Math.min(props.totalPages, props.page + 1));
 
 const visiblePages = computed(() => {
   const pages: (number | -1)[] = [];
-  const total = paginated.value.totalPages;
-  const current = paginated.value.page;
+  const total = props.totalPages;
+  const current = props.page;
 
   if (total <= 7) {
     for (let i = 1; i <= total; i++) pages.push(i);

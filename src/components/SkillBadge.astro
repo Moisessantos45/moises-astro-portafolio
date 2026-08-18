@@ -3,8 +3,8 @@ import fs from "node:fs";
 import path from "node:path";
 
 interface Props {
-  skill: string;
-  icon: string;
+	skill: string;
+	icon: string;
 }
 
 const { skill, icon } = Astro.props;
@@ -13,26 +13,26 @@ const isImg = icon.endsWith(".png");
 let svgContent: string | null = null;
 
 if (!isImg) {
-  const publicDir = path.join(process.cwd(), "public");
-  const filePath = path.join(publicDir, icon);
-  try {
-    const raw = fs.readFileSync(filePath, "utf-8");
-    const cleaned = raw
-      .replace(/<\?xml[^>]*\?>/g, "")
-      .replace(/<!--[\s\S]*?-->/g, "")
-      .replace(/width="[^"]*"/, 'width="18"')
-      .replace(/height="[^"]*"/, 'height="18"')
-      .replace(/class="[^"]*"/, "")
-      .trim();
-    svgContent = cleaned.startsWith("<svg") ? cleaned : null;
-  } catch {
-    svgContent = null;
-  }
+	const publicDir = path.join(process.cwd(), "public");
+	const filePath = path.join(publicDir, icon);
+	try {
+		const raw = fs.readFileSync(filePath, "utf-8");
+		const cleaned = raw
+			.replace(/<\?xml[^>]*\?>/g, "")
+			.replace(/<!--[\s\S]*?-->/g, "")
+			.replace(/width="[^"]*"/, 'width="18"')
+			.replace(/height="[^"]*"/, 'height="18"')
+			.replace(/class="[^"]*"/, "")
+			.trim();
+		svgContent = cleaned.startsWith("<svg") ? cleaned : null;
+	} catch {
+		svgContent = null;
+	}
 }
 ---
 
 <span
-  class="skill-chip group inline-flex items-center gap-2 font-body text-xs font-medium px-3 py-1.5 rounded-md bg-(--color-white) border border-(--color-border) text-(--color-ink-soft) hover:border-(--color-border-mid) hover:text-(--color-ink) transition-all duration-200 cursor-default"
+  class="skill-chip group inline-flex items-center gap-2 font-body text-xs font-medium px-3 py-1.5 rounded-md bg-white border border-(--color-border) text-(--color-ink-soft) hover:border-(--color-border-mid) hover:text-(--color-ink) transition-all duration-200 cursor-default"
 >
   {
     isImg || !svgContent ? (
@@ -43,7 +43,7 @@ if (!isImg) {
       />
     ) : (
       <span
-        class="skill-icon w-[18px] h-[18px] flex items-center justify-center shrink-0 text-(--color-ink-muted) group-hover:text-(--color-ink) transition-colors duration-200"
+        class="skill-icon w-4.5 h-4.5 flex items-center justify-center shrink-0 text-(--color-ink-muted) group-hover:text-(--color-ink) transition-colors duration-200"
         set:html={svgContent}
       />
     )

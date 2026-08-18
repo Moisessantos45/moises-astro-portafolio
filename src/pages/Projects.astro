@@ -3,8 +3,27 @@ import Layout from "../layouts/Layout.astro";
 import Footer from "@/components/Footer.astro";
 import ProjectsList from "@/components/section/ProjectsList.vue";
 import PageNavigator from "@/components/PageNavigator.vue";
+import api from "@/api/config";
+import { mapperProject } from "@/helpers/mappers/project";
+import { mapperPagination } from "@/helpers/mappers/paginated";
+import { initialPaginationState, type Pagination } from "@/types/pagination";
+import type { Project } from "@/types/project";
 
-const page = Number(Astro.url.searchParams.get("page") || "1");
+const page = Math.max(1, Number(Astro.url.searchParams.get("page") || "1"));
+const pageSize = 10;
+
+let projects: Project[] = [];
+let pagination: Pagination = structuredClone(initialPaginationState);
+
+try {
+  const { data } = await api.get("/project/public", {
+    params: { page, pageSize },
+  });
+  projects = (data["data"]["data"] ?? []).map(mapperProject);
+  pagination = mapperPagination(data["data"]["paginate"]);
+} catch {
+  projects = [];
+}
 ---
 
 <Layout title="Proyectos | Moises Santos">
@@ -47,8 +66,8 @@ const page = Number(Astro.url.searchParams.get("page") || "1");
   </section>
 
   <section class="section-max pb-24 scroll-reveal">
-    <ProjectsList client:load page={page} />
-    <PageNavigator client:load baseUrl="/Projects" />
+    <ProjectsList projects={projects} />
+    <PageNavigator baseUrl="/Projects" page={page} totalPages={pagination.totalPages} />
   </section>
 
   <Footer />
