@@ -1,9 +1,8 @@
 ---
 import { useProjectsStore } from "@/store/projectStore";
-import type { ProjectDTO, Project } from "@/types/project";
+import type { ProjectDTO } from "@/types/project";
 import Layout from "@/layouts/Layout.astro";
 import Footer from "@/components/Footer.astro";
-import { loadProjectData } from "@/service/api";
      
 const { slug } = Astro.params;
 
@@ -20,13 +19,6 @@ const displayImages =
 		: projectsList.banner
 			? [projectsList.banner]
 			: [];
-
-export async function getStaticPaths() {
-	const projectPages: Project[] = await loadProjectData();
-	return projectPages.map((item) => ({
-		params: { slug: item.slug },
-	}));
-}
 ---
 
 <Layout title={`${projectsList.title} | Proyectos Moy`}>

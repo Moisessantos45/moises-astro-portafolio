@@ -30,15 +30,6 @@ const wordCount = post.content ? post.content.split(/\s+/).length : 0;
 const readingTime = Math.max(1, Math.ceil(wordCount / 200));
 const contentHtml = post.content ? marked.parse(post.content) : "";
 
-export async function getStaticPaths() {
-	try {
-		const { data } = await api.get("/post/public");
-		const posts: PostInfoBasic[] = data?.data?.data ?? [];
-		return posts.map((p) => ({ params: { slug: p.slug } }));
-	} catch {
-		return [];
-	}
-}
 ---
 
 <Layout
