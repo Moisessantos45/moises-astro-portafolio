@@ -3,11 +3,12 @@ import { useProjectsStore } from "@/store/projectStore";
 import type { ProjectDTO } from "@/types/project";
 import Layout from "@/layouts/Layout.astro";
 import Footer from "@/components/Footer.astro";
-     
+
 const { slug } = Astro.params;
+const params = slug?.trim() ? slug.trim() : "";
 
 const getProjects = async (): Promise<ProjectDTO> => {
-	const data = await useProjectsStore().getProjectBySlug(slug);
+	const data = await useProjectsStore().getProjectBySlug(params);
 	return data;
 };
 
