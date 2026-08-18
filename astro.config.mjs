@@ -6,7 +6,7 @@ import vue from "@astrojs/vue";
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [tailwindcss(), vue()],
+  integrations: [vue()],
   output: "server",
 
   adapter: node({
@@ -50,5 +50,9 @@ export default defineConfig({
     rollupOptions: {
       output: {},
     },
+  },
+
+  vite: {
+    plugins: [tailwindcss()],
   },
 });
